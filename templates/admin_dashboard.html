@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard • Result Analysis</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="/mnt/data/Screenshot 2025-11-24 225020.png" alt="College Logo" class="brand-logo" />
+        <div class="brand-text">
+          <div class="college-name">Your College Name</div>
+          <div class="subtitle">Result Analysis & Prediction</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item active" href="#"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="#"><i class="fa-solid fa-user-graduate"></i><span>Students</span></a>
+        <a class="nav-item" href="#"><i class="fa-solid fa-chalkboard-teacher"></i><span>Faculty</span></a>
+        <a class="nav-item" href="#"><i class="fa-solid fa-book-open"></i><span>Results</span></a>
+        <a class="nav-item" href="#"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+        <a class="nav-item" href="#"><i class="fa-solid fa-microscope"></i><span>Predictions</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="collapseBtn" class="icon-btn" title="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>
+        <button class="icon-btn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <button id="mobileMenuBtn" class="icon-btn mobile-only"><i class="fa-solid fa-bars"></i></button>
+
+        <div class="search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" placeholder="Search students, subjects, results..." />
+        </div>
+
+        <div class="top-actions">
+          <div class="notif">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+
+          <!-- PROFILE AREA (UPDATED WITH DYNAMIC NAME) -->
+          <div class="profile">
+            <img src="https://i.pravatar.cc/40?img=12" alt="admin" />
+            <div class="profile-info">
+              <div class="name">{{ admin_name }}</div>
+              <div class="role">Administrator</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT BODY -->
+      <section class="content">
+
+        <h1 class="page-title">Dashboard</h1>
+        <p class="muted">Overview of students, faculty, results and prediction health.</p>
+
+        <!-- STAT CARDS -->
+        <div class="cards-grid">
+          <div class="card stat-card">
+            <div class="card-head">
+              <div class="title">Total Students</div>
+              <i class="fa-solid fa-user-graduate dash-icon"></i>
+            </div>
+            <div class="stat">{{ total_students }}</div>
+            <div class="small muted">Updated 2 hours ago</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="card-head">
+              <div class="title">Total Faculty</div>
+              <i class="fa-solid fa-chalkboard-teacher dash-icon"></i>
+            </div>
+            <div class="stat">{{ total_faculty }}</div>
+            <div class="small muted">Active this semester</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="card-head">
+              <div class="title">Exams Processed</div>
+              <i class="fa-solid fa-file-lines dash-icon"></i>
+            </div>
+            <div class="stat">{{ exams_processed }}</div>
+            <div class="small muted">Current academic year</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="card-head">
+              <div class="title">Prediction Accuracy</div>
+              <i class="fa-solid fa-robot dash-icon"></i>
+            </div>
+            <div class="stat">{{ prediction_accuracy }}%</div>
+            <div class="small muted">Model baseline</div>
+          </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts-grid">
+          <div class="card chart-card">
+            <div class="card-head">
+              <div class="title">Class Performance (Last Exam)</div>
+              <div class="small muted">Subject wise average</div>
+            </div>
+            <canvas id="barChart" height="150"></canvas>
+          </div>
+
+          <div class="card chart-card">
+            <div class="card-head">
+              <div class="title">Trend (Semester Totals)</div>
+              <div class="small muted">Last 6 semesters</div>
+            </div>
+            <canvas id="lineChart" height="150"></canvas>
+          </div>
+        </div>
+
+        <!-- NOTICES + QUICK ACTIONS -->
+        <div class="bottom-grid">
+          <div class="card notices-card">
+            <div class="card-head">
+              <div class="title">Important Notices</div>
+            </div>
+            <ul class="notices">
+              <li><strong>Re-evaluation window:</strong> Starts 1 Dec — notify students.</li>
+              <li><strong>Upload marks:</strong> Faculty must complete uploads by 30 Nov.</li>
+              <li><strong>Prediction training:</strong> Scheduled maintenance 3 Dec.</li>
+            </ul>
+          </div>
+
+          <div class="card small-widgets">
+            <div class="card-head">
+              <div class="title">Quick Actions</div>
+            </div>
+
+            <div class="widgets">
+              <button class="btn btn-primary">Add Student</button>
+              <button class="btn btn-outline">Add Faculty</button>
+              <button class="btn btn-outline">Run Prediction</button>
+              <button class="btn btn-outline">Export Report</button>
+            </div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div>© <span id="year"></span> Your College • Result Analysis & Prediction</div>
+          <div class="muted">Built with ❤️ • Version 1.0</div>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <!-- Chart.js Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<script>
+  // BAR CHART
+  const barCtx = document.getElementById('barChart');
+  if (barCtx) {
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Maths', 'Physics', 'Chemistry', 'CS', 'English'],
+        datasets: [{
+          label: 'Average',
+          data: [72, 68, 74, 80, 75],
+          backgroundColor: ['#4e73df'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  }
+
+  // LINE CHART
+  const lineCtx = document.getElementById('lineChart');
+  if (lineCtx) {
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: ['Sem1', 'Sem2', 'Sem3', 'Sem4', 'Sem5', 'Sem6'],
+        datasets: [{
+          label: 'Avg Total',
+          data: [480, 500, 510, 530, 520, 540],
+          borderColor: '#1cc88a',
+          backgroundColor: 'rgba(28,200,138,0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+</script>
+
+
+</body>
+</html>
