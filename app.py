@@ -31,7 +31,7 @@ def login():
 
         # ----- ADMIN LOGIN -----
         if role == "admin":
-            cur.execute("SELECT * FROM Admin WHERE A_Email=%s AND A_Password=%s",
+            cur.execute("SELECT * FROM admin WHERE A_Email=%s AND A_Password=%s",
                         (email, password))
             user = cur.fetchone()
 
@@ -53,7 +53,7 @@ def login():
 
         # ----- TEACHER LOGIN -----
         elif role == "teacher":
-            cur.execute("SELECT * FROM Teacher WHERE F_Email=%s AND F_Password=%s",
+            cur.execute("SELECT * FROM teacher WHERE F_Email=%s AND F_Password=%s",
                         (email, password))
             user = cur.fetchone()
 
@@ -119,11 +119,15 @@ def student_dashboard():
 # ==============================
 #   TEACHER DASHBOARD
 # ==============================
+'''@app.route("/teacher/dashboard")
+def teacher_dashboard():
+    teacher_name = session.get("name", "Teacher")
+    return f"<h1>Welcome {teacher_name}! (Teacher Dashboard Coming Soon)</h1>"'''
+
 @app.route("/teacher/dashboard")
 def teacher_dashboard():
     teacher_name = session.get("name", "Teacher")
-    return f"<h1>Welcome {teacher_name}! (Teacher Dashboard Coming Soon)</h1>"
-
+    return render_template("faculty_dashboard.html", teacher_name=teacher_name)
 
 # ==============================
 #          MAIN
