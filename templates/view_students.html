@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students List • Admin</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_students.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header-row">
+        <h2>All Students</h2>
+
+        <div class="btn-group">
+            <a href="/admin/add-student" class="btn-add">
+                <i class="fa-solid fa-user-plus"></i> Add Student
+            </a>
+
+            <a href="/admin/student-menu" class="btn-manage">
+                <i class="fa-solid fa-sliders"></i> Manage Students
+            </a>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by name, roll no, email, department...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+
+    <table id="studentsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Semester</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for s in students %}
+            <tr>
+                <td>{{ s.S_ID }}</td>
+                <td>{{ s.Roll_No }}</td>
+                <td>{{ s.S_Name }}</td>
+                <td>{{ s.S_Email }}</td>
+                <td>{{ s.S_Department }}</td>
+                <td>{{ s.S_Semester }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+<script>
+// Simple live search filter
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#studentsTable tbody tr");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>
