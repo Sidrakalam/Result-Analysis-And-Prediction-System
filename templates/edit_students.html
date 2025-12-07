@@ -17,11 +17,10 @@
 
     <table id="studentTable">
         <tr>
-            <th>S_ID</th>
+            <th>ID</th>
             <th>Roll No</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Phone</th>
             <th>Department</th>
             <th>Semester</th>
@@ -34,24 +33,22 @@
             <td>{{ s.Roll_No }}</td>
             <td>{{ s.S_Name }}</td>
             <td>{{ s.S_Email }}</td>
-            <td>{{ s.S_Password }}</td>
             <td>{{ s.S_Phone }}</td>
             <td>{{ s.S_Department }}</td>
             <td>{{ s.S_Semester }}</td>
 
             <td>
-                <a href="/admin/edit-student/{{ s.S_ID }}" class="btn-edit">Edit</a>
+                <a href="/admin/update-student/{{ s.S_ID }}" class="btn-edit">Edit</a>
             </td>
         </tr>
         {% endfor %}
-
     </table>
 
     <a href="/admin/student-menu" class="back-btn">Back</a>
 </div>
 
 <script>
-// SEARCH FUNCTION
+/* ------------ SEARCH FUNCTION -------------- */
 document.getElementById("searchInput").addEventListener("keyup", function () {
     let filter = this.value.toLowerCase();
     let rows = document.querySelectorAll("#studentTable tr:not(:first-child)");

@@ -14,7 +14,7 @@ def is_valid_email(email):
     return re.match(pattern, email)
 
 def is_valid_phone(phone):
-    pattern = r'^\+\d{1,3}\s\d{10}$'
+    pattern = r'^\+\d{1,3}\s\d{10}$'      # +91 9876543210 format
     return re.match(pattern, phone)
 
 # =====================================================
@@ -30,46 +30,44 @@ def login():
         password = request.form.get("password", "")
 
         if not is_valid_email(email):
-            error = "Please enter a valid email!"
-            return render_template("login.html", error=error)
+            return render_template("login.html", error="Please enter a valid email!")
 
         con = get_connection()
         cur = con.cursor()
 
         # -------- ADMIN LOGIN --------
         if role == "admin":
-            cur.execute("SELECT * FROM admin WHERE A_Email=%s AND A_Password=%s", 
+            cur.execute("SELECT * FROM admin WHERE A_Email=%s AND A_Password=%s",
                         (email, password))
             user = cur.fetchone()
             if user:
-                session["name"] = user[1]
+                session["name"] = user[1]  # A_Name
                 session["role"] = "admin"
                 return redirect("/admin/dashboard")
 
         # -------- STUDENT LOGIN --------
         elif role == "student":
-            cur.execute("SELECT * FROM student WHERE S_Email=%s AND S_Password=%s", 
+            cur.execute("SELECT * FROM student WHERE S_Email=%s AND S_Password=%s",
                         (email, password))
             user = cur.fetchone()
             if user:
-                session["name"] = user[2]
+                session["name"] = user[2]  # S_Name
                 session["role"] = "student"
                 return redirect("/student/dashboard")
 
         # -------- TEACHER LOGIN --------
         elif role == "teacher":
-            cur.execute("SELECT * FROM teacher WHERE F_Email=%s AND F_Password=%s", 
+            cur.execute("SELECT * FROM teacher WHERE F_Email=%s AND F_Password=%s",
                         (email, password))
             user = cur.fetchone()
             if user:
-                session["name"] = user[1]
+                session["name"] = user[1]  # F_Name
                 session["role"] = "teacher"
                 return redirect("/teacher/dashboard")
 
         error = "Invalid Email or Password!"
 
     return render_template("login.html", error=error)
-
 
 # =====================================================
 #                 ADMIN DASHBOARD
@@ -93,6 +91,7 @@ def admin_dashboard():
 
     con.close()
 
+    # dummy fallback when DB empty
     if total_students == 0: total_students = 1254
     if total_faculty == 0: total_faculty = 63
     if exams_processed == 0: exams_processed = 18
@@ -104,12 +103,10 @@ def admin_dashboard():
                            exams_processed=exams_processed,
                            prediction_accuracy=78)
 
-
-# STUDENT MENU PAGE
+# STUDENT MENU
 @app.route("/admin/student-menu")
 def student_menu():
     return render_template("student_menu.html")
-
 
 # =====================================================
 #                 STUDENT DASHBOARD
@@ -119,7 +116,6 @@ def student_dashboard():
     name = session.get("name", "Student")
     return f"<h1>Welcome {name}! (Student Dashboard Coming Soon)</h1>"
 
-
 # =====================================================
 #                 TEACHER DASHBOARD
 # =====================================================
@@ -128,14 +124,11 @@ def teacher_dashboard():
     teacher_name = session.get("name", "Teacher")
     return render_template("faculty_dashboard.html", teacher_name=teacher_name)
 
-
 # =====================================================
 #                   ADD STUDENT
 # =====================================================
 @app.route("/admin/add-student", methods=["GET", "POST"])
 def add_student():
-    error = None
-
     if request.method == "POST":
 
         roll = request.form["roll"]
@@ -150,7 +143,8 @@ def add_student():
             return render_template("add_student.html", error="Invalid Email Format!")
 
         if not is_valid_phone(phone):
-            return render_template("add_student.html", error="Phone must be like +91 9876543210")
+            return render_template("add_student.html",
+                                   error="Phone must be like +91 9876543210")
 
         con = get_connection()
         cur = con.cursor()
@@ -167,7 +161,6 @@ def add_student():
 
     return render_template("add_student.html")
 
-
 # =====================================================
 #                   VIEW STUDENTS
 # =====================================================
@@ -180,8 +173,9 @@ def view_students():
     con.close()
     return render_template("view_students.html", students=students)
 
-
-# EDIT STUDENT LIST PAGE
+# =====================================================
+#            EDIT STUDENTS LIST PAGE
+# =====================================================
 @app.route("/admin/edit-students")
 def edit_students_list():
     con = get_connection()
@@ -191,12 +185,11 @@ def edit_students_list():
     con.close()
     return render_template("edit_students.html", students=students)
 
-
 # =====================================================
-#                   EDIT STUDENT
+#                   UPDATE STUDENT
 # =====================================================
-@app.route("/admin/edit-student/<int:id>", methods=["GET", "POST"])
-def edit_student(id):
+@app.route("/admin/update-student/<int:id>", methods=["GET", "POST"])
+def update_student(id):
 
     con = get_connection()
     cur = con.cursor(dictionary=True)
@@ -213,11 +206,11 @@ def edit_student(id):
         sem = request.form["semester"]
 
         if not is_valid_email(email):
-            return render_template("edit_student.html", student=student,
+            return render_template("update_student.html", student=student,
                                    error="Invalid Email Format!")
 
         if not is_valid_phone(phone):
-            return render_template("edit_student.html", student=student,
+            return render_template("update_student.html", student=student,
                                    error="Phone must be like +91 9876543210")
 
         sql = """UPDATE student SET 
@@ -229,13 +222,12 @@ def edit_student(id):
         con.commit()
         con.close()
 
-        return redirect("/admin/students")
+        return redirect("/admin/edit-students")
 
-    return render_template("edit_student.html", student=student)
-
+    return render_template("update_student.html", student=student)
 
 # =====================================================
-#                   DELETE STUDENT LIST PAGE
+#            DELETE STUDENTS LIST PAGE
 # =====================================================
 @app.route("/admin/delete-students")
 def delete_students_list():
@@ -245,7 +237,6 @@ def delete_students_list():
     students = cur.fetchall()
     con.close()
     return render_template("delete_students.html", students=students)
-
 
 # =====================================================
 #                   DELETE STUDENT
@@ -258,7 +249,6 @@ def delete_student(id):
     con.commit()
     con.close()
     return redirect("/admin/delete-students")
-
 
 # =====================================================
 #                      MAIN
