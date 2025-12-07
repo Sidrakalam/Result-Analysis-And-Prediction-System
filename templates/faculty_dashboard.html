@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Dashboard</title>
+
+    <!-- CSS LINK -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_dashboard.css') }}">
+
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="top-nav">
+    Faculty Dashboard
+</div>
+
+<!-- SIDEBAR MENU -->
+<div class="sidebar">
+    <a href="faculty_dashboard.html">Dashboard</a>
+    <a href="faculty_subjects.html">Subjects</a>
+    <a href="enter_marks.html">Enter Marks</a>
+    <a href="attendance.html">Attendance</a>
+    <a href="attendance_report.html">Attendance Report</a>
+    <a href="student_performance.html">Student Performance</a>
+    <a href="prediction.html">Prediction</a>
+    <a href="faculty_messages.html">Messages</a>
+    <a href="upload_notes.html">Upload Notes</a>
+    <a href="faculty_profile.html">Profile</a>
+    <a href="faculty_login.html">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <div class="header-title">Welcome, Faculty</div>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="box">
+        <h3>Total Students</h3>
+        <p>120</p>
+    </div>
+
+    <div class="box">
+        <h3>Subjects Assigned</h3>
+        <p>4</p>
+    </div>
+
+    <div class="box">
+        <h3>Pending Marks</h3>
+        <p>2 Subjects</p>
+    </div>
+
+    <div class="box">
+        <h3>Today's Attendance</h3>
+        <p>87%</p>
+    </div>
+
+    <!-- CHARTS SECTION -->
+    <div class="charts-container">
+
+        <div class="chart-box">
+            <h3 class="chart-title">Subject-wise Average Marks</h3>
+            <canvas id="subjectBarChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3 class="chart-title">Student Performance Trend</h3>
+            <canvas id="performanceLineChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3 class="chart-title">Pass / Fail Distribution</h3>
+            <canvas id="passFailChart"></canvas>
+        </div>
+
+    </div>
+
+    <!-- Toppers & Weak Students -->
+    <div class="bottom-section">
+
+        <!-- Toppers -->
+        <div class="card">
+            <h3 class="topper-title">🎓 Top 5 Toppers</h3>
+            <table class="topper-table">
+                <tr class="table-head">
+                    <th>Rank</th>
+                    <th>Student</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr><td>1</td><td>Ali Ahmed</td><td>92%</td></tr>
+                <tr class="alt"><td>2</td><td>Fatima Khan</td><td>89%</td></tr>
+                <tr><td>3</td><td>Rahul Sharma</td><td>87%</td></tr>
+                <tr class="alt"><td>4</td><td>Tina Reddy</td><td>85%</td></tr>
+                <tr><td>5</td><td>Aryan Patel</td><td>84%</td></tr>
+            </table>
+        </div>
+
+        <!-- Weak Students -->
+        <div class="card">
+            <h3 class="weak-title">⚠ Weak Student Alerts</h3>
+
+            <p class="weak-desc">
+                Students scoring below <b>40%</b> average:
+            </p>
+
+            <ul class="weak-list">
+                <li><strong>STU140</strong> – Rohan Verma <span class="low"> (38%) </span></li>
+                <li><strong>STU122</strong> – Meera Joshi <span class="low"> (35%) </span></li>
+                <li><strong>STU101</strong> – Sameer Khan <span class="low"> (33%) </span></li>
+                <li><strong>STU135</strong> – Deepak Yadav <span class="low"> (30%) </span></li>
+            </ul>
+
+            <div class="weak-box">
+                📌 <b>Recommendation:</b> Provide remedial classes, extra assignments, or schedule a parent meeting.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CHART SCRIPTS -->
+<script>
+    // BAR CHART
+    new Chart(document.getElementById('subjectBarChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Computer Fundamentals', 'C Programming', 'DBMS', 'Mathematics'],
+            datasets: [{
+                label: 'Average Marks',
+                data: [67, 74, 81, 59],
+                backgroundColor: ['#003366', '#0066cc', '#0099ff', '#66ccff']
+            }]
+        }
+    });
+
+    // LINE CHART
+    new Chart(document.getElementById('performanceLineChart'), {
+        type: 'line',
+        data: {
+            labels: ['Test 1', 'Test 2', 'Mid Term', 'Assignment', 'Final'],
+            datasets: [{
+                label: 'Class Average',
+                data: [58, 64, 70, 72, 80],
+                borderColor: '#003366',
+                fill: false,
+                tension: 0.2
+            }]
+        }
+    });
+
+    // PIE CHART
+    new Chart(document.getElementById('passFailChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Pass', 'Fail'],
+            datasets: [{
+                data: [110, 10],
+                backgroundColor: ['#28a745', '#dc3545']
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
