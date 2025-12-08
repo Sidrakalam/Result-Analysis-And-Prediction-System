@@ -124,10 +124,93 @@ def teacher_dashboard():
     teacher_name = session.get("name", "Teacher")
     return f"<h1>Welcome {teacher_name}! (Teacher Dashboard Coming Soon)</h1>"'''
 
-@app.route("/teacher/dashboard")
+'''@app.route("/teacher/dashboard")
 def teacher_dashboard():
     teacher_name = session.get("name", "Teacher")
-    return render_template("faculty_dashboard.html", teacher_name=teacher_name)
+    return render_template("faculty_dashboard.html", teacher_name=teacher_name)'''
+@app.route("/teacher/dashboard")
+def teacher_dashboard():
+    if "role" not in session or session["role"] != "teacher":
+        return redirect("/")
+
+    teacher_name = session.get("name", "Teacher")
+
+    con = get_connection()
+    cur = con.cursor(dictionary=True)
+
+    # ---------- 1. TOTAL STUDENTS ----------
+    cur.execute("SELECT COUNT(*) AS total FROM student")
+    total_students = cur.fetchone()["total"]
+
+    # ---------- 2. SUBJECTS ASSIGNED ----------
+    cur.execute("SELECT COUNT(*) AS total FROM subject")
+    subjects_assigned = cur.fetchone()["total"]
+
+    # ---------- 3. PENDING MARKS ----------
+    cur.execute("SELECT COUNT(*) AS pending FROM marks WHERE status='pending'")
+    pending_marks = cur.fetchone()["pending"]
+
+    # ---------- 4. TODAY'S ATTENDANCE ----------
+    cur.execute("SELECT AVG(attendance_percentage) AS avg_att FROM attendance")
+    attendance_today = cur.fetchone()["avg_att"] or 0
+
+    # ---------- 5. SUBJECT-WISE AVERAGE MARKS ----------
+    cur.execute("""
+        SELECT s.Sub_Name, AVG(m.Total_Marks) AS avg_marks 
+        FROM marks m
+        JOIN subject s ON m.Sub_ID = s.Sub_ID
+        GROUP BY m.Sub_ID
+    """)
+    subject_avg = cur.fetchall()
+
+    # ---------- 6. PERFORMANCE TREND ----------
+    cur.execute("""
+        SELECT exam_type, AVG(Total_Marks) AS avg_marks
+        FROM marks
+        GROUP BY exam_type
+        ORDER BY exam_type
+    """)
+    performance_trend = cur.fetchall()
+
+    # ---------- 7. PASS / FAIL COUNT ----------
+    cur.execute("SELECT COUNT(*) FROM marks WHERE Total_Marks >= 40")
+    passed = cur.fetchone()["COUNT(*)"]
+
+    cur.execute("SELECT COUNT(*) FROM marks WHERE Total_Marks < 40")
+    failed = cur.fetchone()["COUNT(*)"]
+
+    # ---------- 8. TOPPERS ----------
+    cur.execute("""
+        SELECT S_ID, Student_Name, Percentage
+        FROM marks
+        ORDER BY Percentage DESC LIMIT 5
+    """)
+    toppers = cur.fetchall()
+
+    # ---------- 9. WEAK STUDENTS ----------
+    cur.execute("""
+        SELECT S_ID, Student_Name, Percentage
+        FROM marks
+        WHERE Percentage < 40
+        ORDER BY Percentage ASC
+        LIMIT 5
+    """)
+    weak_students = cur.fetchall()
+
+    con.close()
+
+    return render_template("faculty_dashboard.html",
+                           teacher_name=teacher_name,
+                           total_students=total_students,
+                           subjects_assigned=subjects_assigned,
+                           pending_marks=pending_marks,
+                           attendance_today=round(attendance_today, 2),
+                           subject_avg=subject_avg,
+                           performance_trend=performance_trend,
+                           passed=passed,
+                           failed=failed,
+                           toppers=toppers,
+                           weak_students=weak_students)
 
 # ==============================
 #          MAIN
