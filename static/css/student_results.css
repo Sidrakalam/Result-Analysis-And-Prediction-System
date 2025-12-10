@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+}
+
+/* NAVBAR */
+.navbar {
+    background: #1a237e;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.back-btn {
+    background: #ff5252;
+    padding: 8px 15px;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #d50000;
+}
+
+/* CONTAINER */
+.container {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.title {
+    color: #1a237e;
+    font-size: 28px;
+}
+
+/* NO DATA */
+.no-data {
+    padding: 15px;
+    background: #ffebee;
+    color: #c62828;
+    border-left: 5px solid red;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+/* RESULTS TABLE */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.results-table thead {
+    background: #1a237e;
+    color: white;
+}
+
+.results-table th, .results-table td {
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.results-table tbody tr:nth-child(odd) {
+    background: #f5f5f5;
+}
+
+/* PASS / FAIL BADGES */
+.pass {
+    background: #4caf50;
+    padding: 5px 12px;
+    color: white;
+    border-radius: 8px;
+}
+
+.fail {
+    background: #d32f2f;
+    padding: 5px 12px;
+    color: white;
+    border-radius: 8px;
+}

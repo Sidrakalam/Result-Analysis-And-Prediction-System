@@ -1,0 +1,153 @@
+/* ===========================================
+   GLOBAL PAGE STYLE – LIGHT BLUE THEME
+=========================================== */
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe, #fef9c3);
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 20px;
+}
+/* MAIN CONTAINER */
+.container {
+    width: 80%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+.title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+
+/* SEARCH BOX */
+.search-box {
+    width: 50%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #c6d4f3;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto 20px auto;
+    transition: 0.3s ease;
+}
+
+.search-box:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+th {
+    background: #3b82f6;
+    color: white;
+    padding: 14px;
+    font-size: 16px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    font-size: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background: #eef6ff;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    display: block;
+    width: 150px;
+    margin: 20px auto 0 auto;
+    padding: 10px;
+    text-align: center;
+    background: #1e3a8a;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #2e478a;
+}
+
+
+/* ------------------------------------------
+   RESPONSIVE DESIGN
+------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

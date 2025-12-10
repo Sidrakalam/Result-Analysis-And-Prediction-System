@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_profile.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1>👤 Student Profile</h1>
+        </div>
+
+        <div class="nav-right">
+            <a href="/student/dashboard" class="back-btn">← Back</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <!-- MAIN WRAPPER -->
+    <div class="profile-container">
+
+        <!-- PROFILE CARD -->
+        <div class="profile-card glass-card">
+
+            <div class="profile-pic">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Student">
+            </div>
+
+            <h2>{{ student.S_Name }}</h2>
+            <p class="dept">{{ student.S_Department }} Department</p>
+            <p class="sem">Semester: {{ student.S_Semester }}</p>
+
+        </div>
+
+
+        <!-- DETAILS CARD -->
+        <div class="details-card glass-card">
+
+            <h2>Personal Information</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">Roll Number:</span>
+                    <span class="value">{{ student.Roll_No }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Email:</span>
+                    <span class="value">{{ student.S_Email }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Phone:</span>
+                    <span class="value">{{ student.S_Phone }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Department:</span>
+                    <span class="value">{{ student.S_Department }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Semester:</span>
+                    <span class="value">{{ student.S_Semester }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Account Created On:</span>
+                    <span class="value">{{ student.Created_At or "Not Available" }}</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

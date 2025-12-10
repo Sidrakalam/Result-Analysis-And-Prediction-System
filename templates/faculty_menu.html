@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_menu.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">Faculty Management</h1>
+    <p class="subtitle">Manage all Faculty operations from one place.</p>
+
+    <div class="card-grid">
+
+        <a href="/admin/add-faculty" class="card">
+            <div class="icon-box add"><i class="fa-solid fa-user-plus"></i></div>
+            <h3>Add Faculty</h3>
+            <p>Create a new Faculty record</p>
+        </a>
+
+        <a href="/admin/view-faculty" class="card">
+            <div class="icon-box view"><i class="fa-solid fa-users"></i></div>
+            <h3>View Faculty</h3>
+            <p>View all faculty members</p>
+        </a>
+
+        <a href="/admin/edit-faculty" class="card">
+            <div class="icon-box update"><i class="fa-solid fa-pen-to-square"></i></div>
+            <h3>Edit Faculty</h3>
+            <p>Modify Faculty details</p>
+        </a>
+
+        <a href="/admin/delete-faculty" class="card">
+            <div class="icon-box delete"><i class="fa-solid fa-trash"></i></div>
+            <h3>Delete Faculty</h3>
+            <p>Remove a Faculty record</p>
+        </a>
+
+        <a href="/admin/assign-subject" class="card">
+            <div class="icon-box add"><i class="fa-solid fa-book"></i></div>
+            <h3>Assign Subject</h3>
+            <p>Assign subject to faculty</p>
+        </a>
+
+        <a href="/admin/view-assigned" class="card">
+            <div class="icon-box view"><i class="fa-solid fa-book-open"></i></div>
+            <h3>View Assigned</h3>
+            <p>See subjects assigned to faculty</p>
+        </a>
+
+    </div>
+
+    <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+</div>
+
+</body>
+</html>

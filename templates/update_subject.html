@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Subject</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_subject.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Update Subject</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" class="form-box">
+
+        <label>Subject Code</label>
+        <input type="text" name="code" value="{{ subject.Sub_Code }}" required>
+
+        <label>Subject Name</label>
+        <input type="text" name="name" value="{{ subject.Sub_Name }}" required>
+
+        <label>Semester</label>
+        <select name="semester" required>
+            {% for s in [1,2,3,4] %}
+                <option value="{{ s }}" {% if subject.Sub_Semester == s|string %}selected{% endif %}>
+                    Semester {{ s }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Department</label>
+        <select name="department" required>
+            <option value="MCA" {% if subject.Sub_Department=='MCA' %}selected{% endif %}>MCA</option>
+            <option value="MBA" {% if subject.Sub_Department=='MBA' %}selected{% endif %}>MBA</option>
+            
+        </select>
+
+        <button class="btn">Update Subject</button>
+
+    </form>
+
+    <a href="/admin/edit-subject" class="back-btn">Back</a>
+
+</div>
+
+</body>
+</html>

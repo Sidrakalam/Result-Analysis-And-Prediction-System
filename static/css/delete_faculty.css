@@ -1,0 +1,132 @@
+/* DELETE FACULTY PAGE */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #eef1f5;
+}
+
+.title {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+table {
+    width: 90%;
+    margin: auto;
+    background: white;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #323891;
+    color: white;
+    padding: 14px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #fff1f1;
+}
+
+.btn-delete {
+    background: #ff4444;
+    padding: 7px 14px;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-delete:hover {
+    background: #d60000;
+}
+/* SEARCH BOX */
+.search-box {
+    width: 50%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #c6d4f3;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto 20px auto;
+    transition: 0.3s ease;
+}
+
+.search-box:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+.back-btn {
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ------------------------------------------
+   RESPONSIVE DESIGN
+------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

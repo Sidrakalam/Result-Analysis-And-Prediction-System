@@ -1,0 +1,139 @@
+/* EDIT FACULTY */
+
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe, #fef9c3);
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 28px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+}
+
+.search-box {
+    width: 50%;
+    display: block;
+    margin: 20px auto;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #2759a5;
+    color: white;
+    padding: 14px;
+    font-size: 16px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-edit {
+    padding: 7px 14px;
+    background: #0066ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn-edit:hover {
+    background: #004ecc;
+}
+
+.back-btn {
+    text-decoration: none;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    color: black;
+}
+
+/* ------------------------------------------
+   RESPONSIVE DESIGN
+------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

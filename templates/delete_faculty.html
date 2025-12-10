@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Faculty</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/delete_faculty.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Delete Faculty</h2>
+
+    <!-- SEARCH BAR -->
+    <input type="text" id="searchInput" placeholder="Search by Name, Email, Phone, Department..." class="search-box">
+
+    <table id="facultyTable">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Action</th>
+        </tr>
+
+        {% for f in faculty %}
+        <tr>
+            <td>{{ f.T_ID }}</td>
+            <td>{{ f.T_Name }}</td>
+            <td>{{ f.T_Email }}</td>
+            <td>{{ f.T_Phone }}</td>
+            <td>{{ f.T_Department }}</td>
+
+            <td>
+                <a href="/admin/delete-faculty/{{ f.T_ID }}"
+                   class="btn-delete"
+                   onclick="return confirm('Are you sure you want to delete this faculty?')">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/faculty-menu" class="back-btn">Back</a>
+
+</div>
+
+<script>
+// ---------------------- SEARCH FUNCTION ----------------------
+document.getElementById("searchInput").addEventListener("keyup", function () {
+
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#facultyTable tr:not(:first-child)");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+
+});
+</script>
+
+</body>
+</html>

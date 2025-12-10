@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1>🎓 Student Portal</h1>
+        </div>
+
+        <div class="nav-right">
+            <span class="user">Hello, {{ student_name }}</span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h2>Welcome Back, {{ student_name }} 👋</h2>
+        <p>Your Academic Overview & Insights</p>
+    </section>
+
+    <!-- MAIN GRID -->
+    <section class="dashboard-container">
+
+        <!-- CARD 1 -->
+        <a href="/student/profile" class="card">
+            <div class="icon">👤</div>
+            <h3>Profile</h3>
+            <p>View personal & academic details</p>
+        </a>
+
+        <!-- CARD 2 -->
+        <a href="/student/results" class="card">
+            <div class="icon">📄</div>
+            <h3>Your Results</h3>
+            <p>View semester-wise marksheet</p>
+        </a>
+
+        <!-- CARD 3 (CLASS RESULT) -->
+        <a href="/student/class-results" class="card">
+            <div class="icon">🏆</div>
+            <h3>Class Result</h3>
+            <p>Compare with entire class & ranks</p>
+        </a>
+
+        <!-- CARD 4 -->
+        <a href="/student/analysis" class="card">
+            <div class="icon">📊</div>
+            <h3>Performance Analysis</h3>
+            <p>Graphical insights & improvement areas</p>
+        </a>
+
+        <!-- CARD 5 -->
+        <a href="/student/prediction" class="card">
+            <div class="icon">🤖</div>
+            <h3>AI Prediction</h3>
+            <p>Future performance using AI</p>
+        </a>
+
+        <!-- CARD 6 -->
+        <a href="/student/download" class="card">
+            <div class="icon">⬇️</div>
+            <h3>Download Reports</h3>
+            <p>Download PDF marksheets & reports</p>
+        </a>
+
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_menu.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">Subject Management</h1>
+    <p class="subtitle">Manage all Subject operations from one place.</p>
+
+    <div class="card-grid">
+
+        <a href="/admin/add-subject" class="card">
+            <div class="icon-box add"><i class="fa-solid fa-user-plus"></i></div>
+            <h3>Add Subject</h3>
+            <p>Add a new Subject</p>
+        </a>
+
+        <a href="/admin/view-subject" class="card">
+            <div class="icon-box view"><i class="fa-solid fa-users"></i></div>
+            <h3>View Subject</h3>
+            <p>View Subject</p>
+        </a>
+
+        <a href="/admin/edit-subject" class="card">
+            <div class="icon-box update"><i class="fa-solid fa-pen-to-square"></i></div>
+            <h3>Update Subject</h3>
+            <p>Modify Subject details</p>
+        </a>
+
+        <a href="/admin/delete-subject" class="card">
+            <div class="icon-box delete"><i class="fa-solid fa-user-xmark"></i></div>
+            <h3>Delete Subject</h3>
+            <p>Remove a Subject record</p>
+        </a>
+
+    </div>
+
+    <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+</div>
+
+</body>
+</html>

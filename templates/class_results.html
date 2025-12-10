@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/class_results.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h1>🏆 Class Results</h1>
+        <a href="/student/dashboard" class="back-btn">← Back</a>
+    </nav>
+
+    <div class="container">
+
+        <h2 class="title">Department: {{ dept }} | Semester: {{ sem }}</h2>
+
+        <!-- CLASS RESULT TABLE -->
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Total Marks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in class_results %}
+                <tr class="{% if loop.index == 1 %}topper{% endif %}">
+                    <td>{{ row.Rank }}</td>
+                    <td>{{ row.Roll_No }}</td>
+                    <td>{{ row.S_Name }}</td>
+                    <td>{{ row.Total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

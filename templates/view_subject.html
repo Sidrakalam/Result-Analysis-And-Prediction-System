@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Subjects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_subject.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">All Subjects</h2>
+
+    <!-- SEARCH BAR -->
+    <input type="text" id="searchInput" placeholder="Search by Code, Name, Semester, Department..." class="search-box">
+
+    <table id="subjectTable">
+        <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Department</th>
+        </tr>
+
+        {% for s in subject %}
+        <tr>
+            <td>{{ s.Sub_ID }}</td>
+            <td>{{ s.Sub_Code }}</td>
+            <td>{{ s.Sub_Name }}</td>
+            <td>{{ s.Sub_Semester }}</td>
+            <td>{{ s.Sub_Department }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/subject-menu" class="back-btn">Back</a>
+
+</div>
+
+<script>
+// SEARCH FUNCTION
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#subjectTable tr:not(:first-child)");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

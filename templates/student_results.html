@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Results</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_results.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h1>📄 Your Academic Results</h1>
+        <div class="right">
+            <span class="user">{{ student_name }}</span>
+            <a href="/student/dashboard" class="back-btn">← Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h2 class="title">Semester {{ student_sem }} Results</h2>
+
+        {% if results|length == 0 %}
+            <p class="no-data">⚠ No marks available yet. Please check later.</p>
+        {% else %}
+
+        <!-- Marks Table -->
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th>Internal</th>
+                    <th>External</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.Sub_Code }}</td>
+                    <td>{{ row.Sub_Name }}</td>
+                    <td>{{ row.Internal }}</td>
+                    <td>{{ row.External }}</td>
+                    <td>{{ row.Total }}</td>
+
+                    <!-- Pass/Fail Logic -->
+                    <td>
+                        {% if row.Total >= 40 %}
+                            <span class="pass">Pass</span>
+                        {% else %}
+                            <span class="fail">Fail</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
+    </div>
+
+</body>
+</html>

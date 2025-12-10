@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Subject</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/assign_subject.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Assign Subject to {{ faculty.T_Name }}</h2>
+
+    <form method="POST" class="form-box">
+
+        <label>Select Subject</label>
+        <select name="subject_id" required>
+            <option value="">Choose Subject</option>
+
+            {% for s in subject %}
+                <option value="{{ s.Sub_ID }}">
+                    {{ s.Sub_Name }} ({{ s.Sub_Code }})
+                </option>
+            {% endfor %}
+        </select>
+
+        <button class="btn">Assign Subject</button>
+
+    </form>
+
+    <a href="/admin/assign-subject" class="back-btn">Back</a>
+
+</div>
+
+</body>
+</html>

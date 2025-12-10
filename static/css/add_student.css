@@ -1,21 +1,42 @@
-/* PREMIUM GRADIENT BACKGROUND */
+/* ------------------------------------------
+   GLOBAL STYLES — MODERN GRADIENT BACKGROUND
+------------------------------------------- */
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #eef2ff, #e0f2fe, #fef9c3);
-    background-attachment: fixed;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe, #fef9c3);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 25px;
 }
 
-/* MAIN CONTAINER */
+/* ------------------------------------------
+   CONTAINER
+------------------------------------------- */
 .container {
-    width: 50%;
-    margin: 40px auto;
-    text-align: center;
+    width: 100%;
+    max-width: 550px;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 30px 35px;
+    border-radius: 20px;
+    box-shadow: 0px 15px 35px rgba(0,0,0,0.1);
+    animation: fadeIn 0.6s ease-in-out;
 }
 
-/* TITLES */
+/* Fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------
+   TITLES
+------------------------------------------- */
 .title {
-    font-size: 34px;
+    font-size: 30px;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 5px;
@@ -23,74 +44,148 @@ body {
 
 .subtitle {
     color: #6b7280;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
+    font-size: 15px;
 }
 
-/* FORM CARD */
+/* ------------------------------------------
+   FORM CARD
+------------------------------------------- */
 .form-card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-/* INPUT FIELDS */
-.input-group {
-    margin-bottom: 18px;
+/* ------------------------------------------
+   ERROR MESSAGE BOX
+------------------------------------------- */
+.error-box {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    border-left: 5px solid #dc2626;
     text-align: left;
+}
+
+/* ------------------------------------------
+   INPUT GROUPS
+------------------------------------------- */
+.input-group {
+    display: flex;
+    flex-direction: column;
 }
 
 label {
     font-size: 15px;
-    color: #374151;
+    margin-bottom: 5px;
+    color: #334155;
     font-weight: 600;
 }
 
 input, select {
-    width: 100%;
     padding: 12px;
-    margin-top: 6px;
     border-radius: 10px;
     border: 1px solid #cbd5e1;
-    background: white;
     font-size: 15px;
-    transition: 0.3s;
+    background: white;
+    transition: 0.3s ease;
 }
 
 input:focus, select:focus {
     border-color: #2563eb;
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
     outline: none;
-    box-shadow: 0 0 5px rgba(37,99,235,0.4);
 }
 
-/* SUBMIT BUTTON */
+/* ------------------------------------------
+   SUBMIT BUTTON
+------------------------------------------- */
 .btn-submit {
-    width: 100%;
-    background: #2563eb;
-    color: white;
     padding: 14px;
-    font-size: 17px;
+    background: #2563eb;
     border: none;
+    color: white;
+    font-size: 17px;
     border-radius: 12px;
-    margin-top: 12px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .btn-submit:hover {
-    background: #1d4ed8;
+    background: #1e40af;
 }
 
-/* BACK BUTTON */
+/* ------------------------------------------
+   BACK BUTTON
+------------------------------------------- */
 .back-btn {
     display: inline-block;
-    margin-top: 20px;
-    color: #1d4ed8;
-    font-weight: 600;
+    margin-top: 18px;
+    color: #1e40af;
     text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .back-btn:hover {
     color: #1e3a8a;
+}
+
+/* ------------------------------------------
+   RESPONSIVE DESIGN
+------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
 }
