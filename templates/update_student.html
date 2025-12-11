@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/update_student.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Update Student Details</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" class="form-box">
+
+        <label>Name</label>
+        <input type="text" name="name" value="{{ student.S_Name }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ student.S_Email }}" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ student.S_Phone }}" required>
+
+        <label>Department</label>
+        <input type="text" name="department" value="{{ student.S_Department }}" required>
+
+        <label>Semester</label>
+        <input type="text" name="semester" value="{{ student.S_Semester }}" required>
+
+        <button class="btn">Update Student</button>
+
+    </form>
+
+    <a href="/admin/edit-students" class="back-btn">Back</a>
+
+</div>
+
+</body>
+</html>

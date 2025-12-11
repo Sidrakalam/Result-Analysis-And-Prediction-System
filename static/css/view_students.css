@@ -1,0 +1,115 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+}
+
+/* Header */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-row h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2e2e2e;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-add,
+.btn-manage {
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.btn-add {
+    background: #4e73df;
+    color: white;
+}
+
+.btn-add:hover {
+    background: #3b5cc4;
+}
+
+.btn-manage {
+    background: #1cc88a;
+    color: white;
+}
+
+.btn-manage:hover {
+    background: #17a673;
+}
+
+/* Search Bar */
+.search-box {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: #888;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead {
+    background: #4e73df;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9fbfd;
+}
+
+tbody td {
+    padding: 12px;
+    font-size: 15px;
+    color: #333;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_student.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="title"><i class="fa-solid fa-user-plus"></i> Add Student</h1>
+    <p class="subtitle">Fill the details to register a new student.</p>
+
+    {% if error %}
+    <div class="error-box">
+        <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/admin/add-student" method="POST" class="form-card">
+
+        <div class="input-group">
+            <label>Student Name</label>
+            <input type="text" name="name" required>
+        </div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="text" name="password" required>
+        </div>
+
+        <div class="input-group">
+            <label>Roll Number</label>
+            <input type="number" name="roll" required>
+        </div>
+
+        <!-- COUNTRY SELECT -->
+        <div class="input-group">
+            <label>Country</label>
+            <select id="country" onchange="updateCode()" required>
+                <option value="+91">India (+91)</option>
+                <option value="+1">USA (+1)</option>
+                <option value="+44">UK (+44)</option>
+                <option value="+971">UAE (+971)</option>
+                <option value="+92">Pakistan (+92)</option>
+            </select>
+        </div>
+
+        <!-- PHONE NUMBER -->
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="text" id="phone" name="phone" placeholder="+91 9876543210" required>
+        </div>
+
+        <div class="input-group">
+            <label>Department</label>
+            <select name="department" required>
+                <option disabled selected>Select Department</option>
+                <option>BCA</option>
+                <option>MCA</option>
+                <option>BBA</option>
+                <option>BCOM</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Semester</label>
+            <select name="semester" required>
+                <option disabled selected>Select Semester</option>
+                <option>Sem 1</option>
+                <option>Sem 2</option>
+                <option>Sem 3</option>
+                <option>Sem 4</option>
+                <option>Sem 5</option>
+                <option>Sem 6</option>
+            </select>
+        </div>
+
+        <button class="btn-submit">Add Student</button>
+    </form>
+
+    <a href="/admin/student-menu" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const countrySelect = document.getElementById("country");
+    const phoneInput = document.getElementById("phone");
+
+    // Set initial country code
+    function setInitialCode() {
+        phoneInput.value = countrySelect.value + " ";
+    }
+
+    // When country changes → update code only ONCE
+    countrySelect.addEventListener("change", function () {
+        setInitialCode();
+    });
+
+    // Format phone input
+    phoneInput.addEventListener("input", function () {
+
+        let code = countrySelect.value + " ";
+        let value = phoneInput.value;
+
+        // Always keep the code at start (ONLY ONE TIME)
+        if (!value.startsWith(code)) {
+            // Remove ANY previous code
+            value = value.replace(/^\+\d{1,3}\s?/, "");
+            // Add correct code only once
+            value = code + value;
+        }
+
+        // Allow only digits after country code
+        let numberPart = value.replace(code, "").replace(/\D/g, "");
+
+        // Limit to 10 digits
+        numberPart = numberPart.slice(0, 10);
+
+        phoneInput.value = code + numberPart;
+    });
+
+    // Set default value when page loads
+    setInitialCode();
+
+});
+</script>
+
+
+
+</body>
+</html>

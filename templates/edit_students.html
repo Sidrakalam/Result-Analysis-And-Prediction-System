@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Students</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_students.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Edit Students</h2>
+    <p class="subtitle">Search and update student details</p>
+
+    <!-- Search Bar -->
+    <input type="text" id="searchInput" placeholder="Search by Name, Roll No, Email..." class="search-box">
+
+    <table id="studentTable">
+        <tr>
+            <th>ID</th>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Semester</th>
+            <th>Action</th>
+        </tr>
+
+        {% for s in students %}
+        <tr>
+            <td>{{ s.S_ID }}</td>
+            <td>{{ s.Roll_No }}</td>
+            <td>{{ s.S_Name }}</td>
+            <td>{{ s.S_Email }}</td>
+            <td>{{ s.S_Phone }}</td>
+            <td>{{ s.S_Department }}</td>
+            <td>{{ s.S_Semester }}</td>
+
+            <td>
+                <a href="/admin/update-student/{{ s.S_ID }}" class="btn-edit">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/student-menu" class="back-btn">Back</a>
+</div>
+
+<script>
+/* ------------ SEARCH FUNCTION -------------- */
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#studentTable tr:not(:first-child)");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>
