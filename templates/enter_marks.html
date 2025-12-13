@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Marks</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/enter_marks.css') }}">
+</head>
+
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="top-nav">
+    Enter Marks
+</div>
+
+<!-- SIDEBAR (SESSION BASED) -->
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/faculty_subject">Subjects</a>
+    <a href="/messages">Messages</a>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h2>
+        Subject: {{ subject.Sub_Name }}
+        ({{ subject.Sub_Department }} - Sem {{ subject.Sub_Semester }})
+    </h2>
+
+    {% if students|length == 0 %}
+        <p style="color:red;">No students found for this subject.</p>
+    {% else %}
+    <form method="POST">
+
+        <table>
+            <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Internal (Max 30)</th>
+                <th>External (Max 70)</th>
+            </tr>
+
+            {% for s in students %}
+            <tr>
+                <td>{{ s.Roll_No }}</td>
+                <td>{{ s.S_Name }}</td>
+                <td>
+                    <input type="number"
+                           name="internal_{{ s.S_ID }}"
+                           min="0" max="30" required>
+                </td>
+                <td>
+                    <input type="number"
+                           name="external_{{ s.S_ID }}"
+                           min="0" max="70" required>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit">Submit Marks</button>
+
+    </form>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

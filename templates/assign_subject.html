@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Subjects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/assign_subject.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Assign Subjects to Faculty</h2>
+    <p class="subtitle">Search and select a faculty member</p>
+
+    <!-- SEARCH BAR -->
+    <input type="text" id="searchInput" placeholder="Search by Name, Email, Department..." class="search-box">
+
+    <table id="facultyTable">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Action</th>
+        </tr>
+
+        {% for t in faculty %}
+        <tr>
+            <td>{{ t.T_ID }}</td>
+            <td>{{ t.T_Name }}</td>
+            <td>{{ t.T_Email }}</td>
+            <td>{{ t.T_Department }}</td>
+            <td>
+                <a class="btn" href="/admin/assign-subject/{{ t.T_ID }}">Assign</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/faculty-menu" class="back-btn">Back</a>
+
+</div>
+
+<!-- SEARCH SCRIPT -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#facultyTable tr:not(:first-child)");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Profile</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_profile1.css') }}">
+</head>
+
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="top-nav">
+    Faculty Profile
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/faculty_subject">Subjects</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/add_remark">Messages</a>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <div class="profile-card">
+
+        <h2>My Profile</h2>
+
+        <table>
+            <tr>
+                <th>Teacher ID</th>
+                <td>{{ teacher.T_ID }}</td>
+            </tr>
+
+            <tr>
+                <th>Name</th>
+                <td>{{ teacher.T_Name }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ teacher.T_Email }}</td>
+            </tr>
+
+            <tr>
+                <th>Phone</th>
+                <td>{{ teacher.T_Phone }}</td>
+            </tr>
+
+            <tr>
+                <th>Department</th>
+                <td>{{ teacher.T_Department }}</td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

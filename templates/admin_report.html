@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_report.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Admin Report Module</div>
+
+<div class="sidebar">
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/report">Reports</a>
+    <a href="/admin/prediction">Prediction</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+<h2>Generate Student Report</h2>
+
+<form method="POST" class="card">
+    <label>Department</label>
+    <select name="department" required>
+        {% for d in departments %}
+        <option value="{{ d.S_Department }}">{{ d.S_Department }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Semester</label>
+    <select name="semester" required>
+        {% for s in semesters %}
+        <option value="{{ s.S_Semester }}">{{ s.S_Semester }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Generate Report</button>
+</form>
+
+{% if summary %}
+<div class="summary">
+    <h3>Summary</h3>
+    <p>Total Students: {{ summary.total_students }}</p>
+    <p>Average Marks: {{ summary.average_score }}</p>
+    <p>Passed: {{ summary.passed }}</p>
+    <p>Failed: {{ summary.failed }}</p>
+</div>
+{% endif %}
+
+{% if report_data %}
+<div class="card">
+<table>
+    <tr>
+        <th>Student</th>
+        <th>Roll No</th>
+        <th>Subject</th>
+        <th>Internal</th>
+        <th>External</th>
+        <th>Total</th>
+    </tr>
+
+    {% for r in report_data %}
+    <tr>
+        <td>{{ r.S_Name }}</td>
+        <td>{{ r.Roll_No }}</td>
+        <td>{{ r.Sub_Name }}</td>
+        <td>{{ r.Internal }}</td>
+        <td>{{ r.External }}</td>
+        <td>{{ r.Total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>

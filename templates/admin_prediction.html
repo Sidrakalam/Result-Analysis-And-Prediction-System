@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_prediction.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Admin Prediction Module</div>
+
+<div class="sidebar">
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/prediction">Prediction</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+<h2>Predict Student Performance</h2>
+
+<form method="POST" class="card">
+
+    <label>Department</label>
+    <select name="department" required>
+        {% for d in departments %}
+        <option value="{{ d.S_Department }}">{{ d.S_Department }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Semester</label>
+    <select name="semester" required>
+        {% for s in semesters %}
+        <option value="{{ s.S_Semester }}">{{ s.S_Semester }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Subject (Optional)</label>
+    <select name="Sub_ID">
+        <option value="">All Subjects</option>
+        {% for sub in subjects %}
+        <option value="{{ sub.Sub_ID }}">{{ sub.Sub_Name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Search Student (Name / Roll No)</label>
+    <input type="text" name="keyword" required>
+
+    <button type="submit">Predict</button>
+</form>
+
+{% if result %}
+<div class="result-card">
+    <h3>Student Performance</h3>
+
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Roll No</th>
+            <th>Subject</th>
+            <th>Internal</th>
+            <th>External</th>
+            <th>Total</th>
+        </tr>
+
+        {% for r in result %}
+        <tr>
+            <td>{{ r.S_Name }}</td>
+            <td>{{ r.Roll_No }}</td>
+            <td>{{ r.Sub_Name }}</td>
+            <td>{{ r.Internal }}</td>
+            <td>{{ r.External }}</td>
+            <td>{{ r.Total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3 class="prediction">
+        Predicted Overall Performance: {{ predicted_avg }}
+    </h3>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>

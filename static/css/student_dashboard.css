@@ -1,0 +1,240 @@
+/* IMPORT FONT */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+}
+
+/* NAVBAR */
+.navbar {
+    background: #1a237e;
+    color: white;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.nav-left h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.user {
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+.logout-btn {
+    background: #ff5252;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background: #d50000;
+}
+
+/* HERO SECTION */
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    color: #1a237e;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* DASHBOARD GRID */
+.dashboard-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* CARD DESIGN */
+.card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+
+    text-align: center;
+    padding: 30px 20px;
+    text-decoration: none;
+    color: black;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: 0.4s;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* ICON */
+.card .icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+/* CARD TITLE */
+.card h3 {
+    color: #1a237e;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* CARD DESCRIPTION */
+.card p {
+    font-size: 14px;
+    color: #444;
+}
+
+/* RESPONSIVE FOR MOBILE */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+/* IMPORT FONT */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+}
+
+/* NAVBAR */
+.navbar {
+    background: #1a237e;
+    color: white;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.nav-left h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.user {
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+.logout-btn {
+    background: #ff5252;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background: #d50000;
+}
+
+/* HERO SECTION */
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    color: #1a237e;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* DASHBOARD GRID */
+.dashboard-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* CARD DESIGN */
+.card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+
+    text-align: center;
+    padding: 30px 20px;
+    text-decoration: none;
+    color: black;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: 0.4s;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* ICON */
+.card .icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+/* CARD TITLE */
+.card h3 {
+    color: #1a237e;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* CARD DESCRIPTION */
+.card p {
+    font-size: 14px;
+    color: #444;
+}
+
+/* RESPONSIVE FOR MOBILE */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}

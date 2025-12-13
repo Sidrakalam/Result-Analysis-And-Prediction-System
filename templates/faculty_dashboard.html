@@ -3,12 +3,11 @@
 <head>
     <title>Faculty Dashboard</title>
 
-    <!-- CSS LINK -->
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_dashboard.css') }}">
-
-
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -18,153 +17,177 @@
     Faculty Dashboard
 </div>
 
-<!-- SIDEBAR MENU -->
+<!-- SIDEBAR -->
 <div class="sidebar">
-    <a href="faculty_dashboard.html">Dashboard</a>
-    <a href="faculty_subjects.html">Subjects</a>
-    <a href="enter_marks.html">Enter Marks</a>
-    <a href="attendance.html">Attendance</a>
-    <a href="attendance_report.html">Attendance Report</a>
-    <a href="student_performance.html">Student Performance</a>
-    <a href="prediction.html">Prediction</a>
-    <a href="faculty_messages.html">Messages</a>
-    <a href="upload_notes.html">Upload Notes</a>
-    <a href="faculty_profile.html">Profile</a>
-    <a href="faculty_login.html">Logout</a>
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/faculty_subject">Subjects</a>
+
+    <a href="/enter_marks/5">Add Marks</a>
+    <a href="/add_remark">Messages</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
 
-    <div class="header-title">Welcome, Faculty</div>
-
-    <!-- DASHBOARD CARDS -->
-    <div class="box">
-    <h3>Total Students</h3>
-    <p>{{ total_students }}</p>
+    <!-- WELCOME -->
+    <div class="header-title">
+        Welcome, <span style="font-weight:600;">{{ teacher_name }}</span>
     </div>
 
-    <div class="box">
-    <h3>Subjects Assigned</h3>
-    <p>{{ subjects_assigned }}</p>
+    <!-- DASHBOARD STATS -->
+    <div class="stats-container">
+
+        <div class="box">
+            <h3>Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+
+        <div class="box">
+            <h3>Subjects Assigned</h3>
+            <p>{{ subjects_assigned }}</p>
+        </div>
+
+        <div class="box">
+            <h3>Pending Marks</h3>
+            <p>{{ pending_marks }}</p>
+        </div>
+
     </div>
 
-    <div class="box">
-    <h3>Pending Marks</h3>
-    <p>{{ pending_marks }} Subjects</p>
-    </div>
-
-    <div class="box">
-    <h3>Today's Attendance</h3>
-    <p>{{ attendance_today }}%</p>
-    </div>
-
-
-    <!-- CHARTS SECTION -->
+    <!-- CHART SECTION -->
     <div class="charts-container">
 
         <div class="chart-box">
-            <h3 class="chart-title">Subject-wise Average Marks</h3>
-            <canvas id="subjectBarChart"></canvas>
+            <h3>📊 Subject-wise Average Marks</h3>
+            <canvas id="barChart"></canvas>
         </div>
 
         <div class="chart-box">
-            <h3 class="chart-title">Student Performance Trend</h3>
-            <canvas id="performanceLineChart"></canvas>
-        </div>
-
-        <div class="chart-box">
-            <h3 class="chart-title">Pass / Fail Distribution</h3>
-            <canvas id="passFailChart"></canvas>
+            <h3>📈 Pass / Fail Distribution</h3>
+            <canvas id="pieChart"></canvas>
         </div>
 
     </div>
 
-    <!-- Toppers & Weak Students -->
-    <div class="bottom-section">
+    <!-- STUDENT INSIGHTS -->
+    <div class="info-section">
 
-        <!-- Toppers -->
-        <div class="card">
-            <h3 class="topper-title">🎓 Top 5 Toppers</h3>
-            <table class="topper-table">
-                <tr class="table-head">
-                    <th>Rank</th>
-                    <th>Student</th>
-                    <th>Percentage</th>
+        <!-- TOPPERS -->
+        <div class="info-card">
+            <h3>🎓 Top 5 Toppers</h3>
+
+            <table>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Total Marks</th>
                 </tr>
-                <tr><td>1</td><td>Ali Ahmed</td><td>92%</td></tr>
-                <tr class="alt"><td>2</td><td>Fatima Khan</td><td>89%</td></tr>
-                <tr><td>3</td><td>Rahul Sharma</td><td>87%</td></tr>
-                <tr class="alt"><td>4</td><td>Tina Reddy</td><td>85%</td></tr>
-                <tr><td>5</td><td>Aryan Patel</td><td>84%</td></tr>
+
+                {% for t in toppers %}
+                <tr>
+                    <td>{{ t.S_Name }}</td>
+                    <td>{{ t.Total }}</td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
 
-        <!-- Weak Students -->
-        <div class="card">
-            <h3 class="weak-title">⚠ Weak Student Alerts</h3>
+        <!-- WEAK STUDENTS -->
+        <div class="info-card">
+            <h3 style="color:#cc0000;">⚠ Weak Students (Below 40%)</h3>
 
-            <p class="weak-desc">
-                Students scoring below <b>40%</b> average:
-            </p>
-
-            <ul class="weak-list">
-                <li><strong>STU140</strong> – Rohan Verma <span class="low"> (38%) </span></li>
-                <li><strong>STU122</strong> – Meera Joshi <span class="low"> (35%) </span></li>
-                <li><strong>STU101</strong> – Sameer Khan <span class="low"> (33%) </span></li>
-                <li><strong>STU135</strong> – Deepak Yadav <span class="low"> (30%) </span></li>
+            <ul>
+                {% for w in weak_students %}
+                <li>
+                    {{ w.S_Name }} — {{ w.Total }}%
+                </li>
+                {% endfor %}
             </ul>
+        </div>
 
-            <div class="weak-box">
-                📌 <b>Recommendation:</b> Provide remedial classes, extra assignments, or schedule a parent meeting.
-            </div>
+    </div>
+
+    <!-- RECENT REMARKS -->
+    <div class="info-section">
+
+        <div class="info-card">
+            <h3>📝 Recent Remarks</h3>
+
+            {% if recent_remarks|length == 0 %}
+                <p class="muted-text">No remarks given yet.</p>
+            {% else %}
+                <ul>
+                    {% for r in recent_remarks %}
+                    <li>
+                        <strong>{{ r.S_Name }}</strong> :
+                        {{ r.Remark }}
+                        <span class="date-text">
+                            ({{ r.Date }})
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
     </div>
 
 </div>
 
-<!-- CHART SCRIPTS -->
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    // BAR CHART
-    new Chart(document.getElementById('subjectBarChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Computer Fundamentals', 'C Programming', 'DBMS', 'Mathematics'],
-            datasets: [{
-                label: 'Average Marks',
-                data: [67, 74, 81, 59],
-                backgroundColor: ['#003366', '#0066cc', '#0099ff', '#66ccff']
-            }]
-        }
-    });
+/* ---------- BAR CHART ---------- */
+var barCtx = document.getElementById('barChart').getContext('2d');
 
-    // LINE CHART
-    new Chart(document.getElementById('performanceLineChart'), {
-        type: 'line',
-        data: {
-            labels: ['Test 1', 'Test 2', 'Mid Term', 'Assignment', 'Final'],
-            datasets: [{
-                label: 'Class Average',
-                data: [58, 64, 70, 72, 80],
-                borderColor: '#003366',
-                fill: false,
-                tension: 0.2
-            }]
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for s in bar_data %}
+                "{{ s.Sub_Name }}",
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Average Marks',
+            data: [
+                {% for s in bar_data %}
+                    {{ s.avg_marks }},
+                {% endfor %}
+            ],
+            backgroundColor: '#003366'
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100
+            }
         }
-    });
+    }
+});
 
-    // PIE CHART
-    new Chart(document.getElementById('passFailChart'), {
-        type: 'pie',
-        data: {
-            labels: ['Pass', 'Fail'],
-            datasets: [{
-                data: [110, 10],
-                backgroundColor: ['#28a745', '#dc3545']
-            }]
-        }
-    });
+/* ---------- PIE CHART ---------- */
+var pieCtx = document.getElementById('pieChart').getContext('2d');
+
+new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Pass', 'Fail'],
+        datasets: [{
+            data: [{{ passed }}, {{ failed }}],
+            backgroundColor: ['#28a745', '#dc3545']
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
 </script>
 
 </body>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Remark</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_remark.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Edit Remark</div>
+
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/teacher/remarks">Messages</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+    <div class="card">
+        <h2>Edit Remark for {{ remark.S_Name }}</h2>
+
+        <form method="POST">
+            <textarea name="remark" required>{{ remark.Remark }}</textarea>
+            <button type="submit">Update Remark</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

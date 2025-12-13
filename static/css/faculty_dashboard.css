@@ -1,15 +1,15 @@
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: 'Inter', sans-serif;
     background: #eef1f5;
 }
 
-/* TOP NAVBAR */
+/* ================= TOP NAVBAR ================= */
 .top-nav {
     width: 100%;
     background: #003366;
     color: white;
-    padding: 15px;
+    padding: 15px 20px;
     font-size: 22px;
     font-weight: bold;
     box-shadow: 0px 2px 5px #999;
@@ -18,7 +18,7 @@ body {
     z-index: 1000;
 }
 
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 .sidebar {
     width: 220px;
     height: 100vh;
@@ -27,7 +27,6 @@ body {
     left: 0;
     top: 0;
     padding-top: 70px;
-    box-shadow: 2px 0px 6px #ccc;
 }
 
 .sidebar a {
@@ -41,135 +40,151 @@ body {
 
 .sidebar a:hover {
     background: #00509d;
-    transition: 0.3s;
 }
 
-/* MAIN CONTENT */
+/* ================= MAIN CONTENT ================= */
 .main-content {
     margin-left: 230px;
-    padding: 100px 20px 20px 20px;
+    padding: 100px 30px 30px;
 }
 
 .header-title {
-    font-size: 26px;
-    margin-bottom: 15px;
+    font-size: 28px;
     color: #003366;
+    margin-bottom: 25px;
+    font-weight: 700;
 }
 
-/* BOX CARDS */
-.box {
-    display: inline-block;
-    width: 17%;
-    background: #003366;
-    color: white;
-    padding: 20px;
-    margin: 1%;
-    border-radius: 20px;
-    box-shadow: 0px 0px 8px #ccc;
-    text-align: center;
-}
-
-/* CHARTS */
-.charts-container {
-    margin-top: 30px;
-}
-
-.chart-box {
-    width: 40%;
-    display: inline-block;
-    background: white;
-    padding: 20px;
-    margin: 1%;
-    border-radius: 10px;
-    box-shadow: 0px 0px 8px #ccc;
-}
-
-.chart-title {
-    text-align: center;
-    color: #003366;
-}
-
-canvas {
-    width: 100% !important;
-    height: 350px !important;
-}
-
-/* BOTTOM SECTION */
-.bottom-section {
-    margin-top: 40px;
+/* ================= DASHBOARD CARDS ================= */
+.stats-container {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.box {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px #ccc;
+    text-align: center;
+}
+
+.box h3 {
+    color: #003366;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.box p {
+    font-size: 26px;
+    font-weight: bold;
+    color: #00509d;
+}
+
+/* ================= CHART SECTION ================= */
+.charts-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
-.card {
-    width: 40%;
+.chart-box {
+    flex: 1;
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #ccc;
-    transition: 0.3s;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px #ccc;
+    min-width: 420px;
 }
 
-.card:hover {
-    transform: scale(1.02);
-}
-
-/* TOPPER TABLE */
-.topper-title {
-    color: #003366;
+.chart-box h3 {
     text-align: center;
+    color: #003366;
+    font-weight: 600;
     margin-bottom: 15px;
 }
 
-.topper-table {
+.chart-box canvas {
+    width: 100% !important;
+    height: 320px !important;
+}
+
+/* ================= TOPPERS / WEAK STUDENTS / REMARKS ================= */
+.info-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.info-card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px #ccc;
+    min-width: 420px;
+}
+
+.info-card h3 {
+    margin-bottom: 15px;
+    color: #003366;
+    font-weight: 600;
+}
+
+/* ================= TABLE ================= */
+table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 15px;
 }
 
-.table-head {
+th {
+    padding: 10px;
     background: #003366;
     color: white;
+    text-align: center;
 }
 
-.topper-table td, .topper-table th {
+td {
     padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
-.alt {
+tr:hover {
     background: #f4f7fb;
 }
 
-/* WEAK STUDENT */
-.weak-title {
-    color: #cc0000;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.weak-desc {
-    font-size: 14px;
-    color: #444;
-    text-align: center;
-}
-
-.weak-list {
-    line-height: 1.9;
-    font-size: 16px;
-    color: #333;
+/* ================= LIST ================= */
+ul {
     padding-left: 20px;
+    line-height: 1.8;
 }
 
-.low {
-    color: #cc0000;
+.muted-text {
+    color: #777;
+    text-align: center;
 }
 
-.weak-box {
-    background: #fff3f3;
-    padding: 10px;
-    border-radius: 6px;
-    margin-top: 10px;
-    font-size: 13px;
-    color: #a60000;
+.date-text {
+    color: #777;
+    font-size: 12px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+    .stats-container,
+    .charts-container,
+    .info-section {
+        flex-direction: column;
+    }
+
+    .chart-box,
+    .info-card {
+        min-width: 100%;
+    }
 }

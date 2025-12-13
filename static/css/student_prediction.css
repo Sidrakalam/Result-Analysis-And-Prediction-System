@@ -1,0 +1,82 @@
+
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #eef1f5;
+}
+
+.top-nav {
+    background: #003366;
+    color: white;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #02294d;
+    position: fixed;
+    top: 60px;
+    left: 0;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background: #00509d;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+.card, .result-card {
+    width: 420px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px #ccc;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: 600;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1px solid #999;
+}
+
+button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #1f7e34;
+}
+
+.prediction {
+    color: #003366;
+    margin-top: 15px;
+    font-weight: 600;
+}

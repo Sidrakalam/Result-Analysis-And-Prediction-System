@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+}
+
+/* NAVBAR */
+.navbar {
+    background: #1a237e;
+    padding: 15px 35px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.nav-left h1 {
+    margin: 0;
+}
+
+.back-btn, .logout-btn {
+    background: #ff5252;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.back-btn:hover, .logout-btn:hover {
+    background: #d50000;
+}
+
+/* MAIN CONTAINER */
+.profile-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* GLASS EFFECT CARD */
+.glass-card {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* PROFILE CARD */
+.profile-card {
+    width: 320px;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.profile-pic img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #ffffff80;
+    margin-bottom: 15px;
+}
+
+.profile-card h2 {
+    font-size: 26px;
+    color: #1a237e;
+}
+
+.dept, .sem {
+    color: #444;
+    margin: 6px 0;
+}
+
+/* DETAILS CARD */
+.details-card {
+    width: 650px;
+}
+
+.details-card h2 {
+    margin-bottom: 20px;
+    color: #1a237e;
+}
+
+/* GRID OF INFO */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.info-item {
+    background: rgba(255,255,255,0.55);
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.label {
+    font-weight: 600;
+    color: #333;
+}
+
+.value {
+    float: right;
+    color: #1a237e;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .details-card {
+        width: 100%;
+    }
+
+    .profile-card {
+        width: 100%;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

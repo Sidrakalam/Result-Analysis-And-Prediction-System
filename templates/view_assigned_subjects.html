@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigned Subjects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/assign_subject.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h2 class="title">Faculty – Assigned Subjects</h2>
+
+    <table>
+        <tr>
+            <th>Faculty</th>
+            <th>Subject</th>
+            <th>Code</th>
+            <th>Action</th>
+        </tr>
+
+        {% for row in assigned %}
+        <tr>
+            <td>{{ row.T_Name }}</td>
+            <td>{{ row.Sub_Name }}</td>
+            <td>{{ row.Sub_Code }}</td>
+
+            <td>
+                <a class="btn-delete" href="/admin/remove-assigned/{{ row.TS_ID }}">
+                    Remove
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/admin/faculty-menu" class="back-btn">Back</a>
+
+</div>
+
+</body>
+</html>

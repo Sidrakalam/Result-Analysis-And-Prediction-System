@@ -1,0 +1,213 @@
+/* ===========================
+   GLOBAL PAGE DESIGN
+   =========================== */
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6fa;
+    color: #333;
+}
+
+/* Page Container */
+.container {
+    width: 85%;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Titles */
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #2e4ead;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+
+/* ===========================
+   TABLE DESIGN
+   =========================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background: #2e4ead;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-size: 15px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+
+tr:hover {
+    background: #f1f5ff;
+    transition: 0.2s;
+}
+
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+.btn {
+    background: #2e4ead;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #1f3a8b;
+    transform: translateY(-2px);
+}
+
+/* Edit Button */
+.btn-edit {
+    background: #ff8c42;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-edit:hover {
+    background: #e6762f;
+}
+
+/* Delete Button */
+.btn-delete {
+    background: #d9534f;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btn-delete:hover {
+    background: #c9302c;
+    transform: scale(1.05);
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 18px;
+    background: #555;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background: #333;
+}
+
+
+/* ===========================
+   FORM DESIGN (Assign Page)
+   =========================== */
+
+.form-box {
+    width: 100%;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+button.btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* ===========================
+   SEARCH BOX
+   =========================== */
+
+.search-box {
+    width: 40%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    font-size: 15px;
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: #2e4ead;
+    box-shadow: 0px 0px 5px rgba(46, 78, 173, 0.4);
+}
+
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 13px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .btn, .btn-edit, .btn-delete {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}

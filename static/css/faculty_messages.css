@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #eef1f5;
+}
+
+/* NAVBAR */
+.top-nav {
+    width: 100%;
+    background: #003366;
+    color: white;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #02294d;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 70px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid #07406e;
+}
+
+.sidebar a:hover {
+    background: #00509d;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-left: 230px;
+    margin-top: 90px;
+    padding: 20px;
+}
+
+h2 {
+    color: #003366;
+    font-size: 26px;
+}
+
+/* MESSAGE FORM */
+.form-box {
+    width: 60%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px #ccc;
+}
+
+input, textarea {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #777;
+}
+
+textarea {
+    height: 120px;
+}
+
+/* SEND BUTTON */
+button {
+    padding: 12px 20px;
+    background: #0066cc;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #004f99;
+}
+
+/* MESSAGE HISTORY */
+.history-box {
+    width: 95%;
+    margin-top: 30px;
+}
+
+.message-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px #ccc;
+    margin-bottom: 15px;
+}
+
+.message-title {
+    font-weight: bold;
+    color: #003366;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #666;
+}

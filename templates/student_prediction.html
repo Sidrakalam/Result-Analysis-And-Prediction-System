@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_prediction.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Student Prediction</div>
+
+<div class="sidebar">
+    <a href="/student/dashboard">Dashboard</a>
+    <a href="/student/prediction">Prediction</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+<h2>Predict My Marks</h2>
+
+<form method="POST" class="card">
+
+    <label>Select Subject</label>
+    <select name="Sub_ID" required>
+        <option value="">-- Select Subject --</option>
+        {% for s in subjects %}
+        <option value="{{ s.Sub_ID }}">{{ s.Sub_Name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Predict</button>
+</form>
+
+{% if marks %}
+<div class="result-card">
+    <h3>My Performance</h3>
+
+    <p><strong>Internal:</strong> {{ marks.Internal }}</p>
+    <p><strong>External:</strong> {{ marks.External }}</p>
+    <p><strong>Actual Total:</strong> {{ marks.Total }}</p>
+
+    <h3 class="prediction">
+        Predicted Marks: {{ predicted }}
+    </h3>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>

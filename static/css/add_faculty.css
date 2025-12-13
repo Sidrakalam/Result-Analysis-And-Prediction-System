@@ -1,0 +1,182 @@
+/* ==========================================================
+   GLOBAL PAGE STYLING – LIGHT BLUE PROFESSIONAL THEME
+=========================================================== */
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe, #fef9c3);
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 20px;
+}
+/* MAIN CONTAINER */
+.container {
+    width: 420px;
+    background: #ffffff;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* TITLE */
+.title {
+    text-align: center;
+    color: #1e3a8a; /* navy blue */
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* ERROR BOX */
+.error {
+    background: #ffe1e1;
+    color: #c30000;
+    padding: 10px;
+    border-left: 4px solid #c30000;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* FORM INPUTS */
+.form-box label {
+    font-weight: 600;
+    display: block;
+    margin-top: 12px;
+    color: #374151;
+}
+
+.form-box input,
+.country-dropdown,
+.dropdown {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #cdd5e0;
+    background: #f8faff;
+    font-size: 15px;
+    transition: 0.3s ease-in-out;
+}
+
+.form-box input:focus,
+.country-dropdown:focus,
+.dropdown:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+
+/* PHONE NUMBER GROUP */
+.phone-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.country-dropdown {
+    width: 40%;
+}
+
+.phone-group input {
+    width: 60%;
+}
+
+/* SUBMIT BUTTON */
+.btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background: #3b82f6; /* blue */
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background: #1e40af; /* darker blue */
+}
+
+/* BACK BUTTON */
+.back-btn {
+    display: block;
+    margin-top: 18px;
+    text-align: center;
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    color: #0f1e63;
+}
+
+
+/* ------------------------------------------
+   RESPONSIVE DESIGN
+------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-submit {
+        font-size: 16px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

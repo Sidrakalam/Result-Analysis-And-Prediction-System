@@ -29,11 +29,13 @@
         </div>
     </div>
 
+    <!-- Search Bar -->
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search by name, roll no, email, department...">
         <i class="fa-solid fa-magnifying-glass"></i>
     </div>
 
+    <!-- Students Table -->
     <table id="studentsTable">
         <thead>
             <tr>
@@ -49,12 +51,12 @@
         <tbody>
             {% for s in students %}
             <tr>
-                <td>{{ s.S_ID }}</td>
-                <td>{{ s.Roll_No }}</td>
-                <td>{{ s.S_Name }}</td>
-                <td>{{ s.S_Email }}</td>
-                <td>{{ s.S_Department }}</td>
-                <td>{{ s.S_Semester }}</td>
+                <td data-label="ID">{{ s.S_ID }}</td>
+                <td data-label="Roll No">{{ s.Roll_No }}</td>
+                <td data-label="Name">{{ s.S_Name }}</td>
+                <td data-label="Email">{{ s.S_Email }}</td>
+                <td data-label="Department">{{ s.S_Department }}</td>
+                <td data-label="Semester">{{ s.S_Semester }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -62,9 +64,8 @@
 
 </div>
 
-
 <script>
-// Simple live search filter
+// LIVE SEARCH
 document.getElementById("searchInput").addEventListener("keyup", function () {
     let filter = this.value.toLowerCase();
     let rows = document.querySelectorAll("#studentsTable tbody tr");

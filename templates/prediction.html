@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Report</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prediction.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="top-nav">
+    Performance Prediction
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="/dashboard/{{ T_ID }}">Dashboard</a>
+    <a href="/faculty_subject/{{ T_ID }}">Subjects</a>
+    <a href="/messages/{{ T_ID }}">Messages</a>
+    <a href="/profile/{{ T_ID }}">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h2>Prediction for Student: {{ student_id }}</h2>
+
+    <div class="prediction-card">
+
+        <div class="info-box">
+            Machine Learning Based Score Projection
+        </div>
+
+        <p><span class="label">Average Marks:</span> {{ avg | round(2) }}%</p>
+
+        <p><span class="label">Attendance Score:</span> {{ attendance }}%</p>
+
+        <p><span class="label">Assignment Score:</span> {{ assignment_score }}%</p>
+
+        <hr>
+
+        <p class="predicted-score">Predicted Final Score: {{ predicted }}%</p>
+
+        {% if predicted >= 70 %}
+            <p style="color: green; font-weight: bold;">Excellent chances of scoring high! 🌟</p>
+        {% elif predicted >= 50 %}
+            <p style="color: #cc9900; font-weight: bold;">Moderate chances. Improvement recommended.</p>
+        {% else %}
+            <p style="color: red; font-weight: bold;">High risk of failing. Immediate academic support needed.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

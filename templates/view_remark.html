@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Remarks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_remark.css') }}">
+</head>
+<body>
+
+<div class="top-nav">My Remarks</div>
+
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/teacher/remarks">Messages</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+<h2>Remarks Given by You</h2>
+
+{% if remarks|length == 0 %}
+    <p class="no-data">No remarks added yet.</p>
+{% else %}
+<table>
+    <tr>
+        <th>Student</th>
+        <th>Remark</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+    {% for r in remarks %}
+    <tr>
+        <td>{{ r.S_Name }}</td>
+        <td>{{ r.Remark }}</td>
+        <td>{{ r.Date }}</td>
+        <td>
+            <a href="/edit_remark/{{ r.Rmk_ID }}">Edit</a> |
+            <a href="/delete_remark/{{ r.Rmk_ID }}"
+               onclick="return confirm('Delete this remark?')">
+               Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+</div>
+</body>
+</html>

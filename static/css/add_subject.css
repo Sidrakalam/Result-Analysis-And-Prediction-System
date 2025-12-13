@@ -1,0 +1,241 @@
+/* -----------------------------------------
+   GLOBAL PAGE STYLING
+----------------------------------------- */
+body {
+    font-family: "Poppins", sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* -----------------------------------------
+   CONTAINER
+----------------------------------------- */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 40px;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* -----------------------------------------
+   TITLES & SUBTITLES
+----------------------------------------- */
+.title {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* -----------------------------------------
+   SEARCH BOX
+----------------------------------------- */
+.search-box {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+}
+
+/* -----------------------------------------
+   TABLE STYLING
+----------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th {
+    background: #4A90E2;
+    color: white;
+    padding: 14px 10px;
+    font-size: 15px;
+    text-align: left;
+}
+
+td {
+    background: #fafafa;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+tr:hover td {
+    background: #f1f6ff;
+}
+
+/* -----------------------------------------
+   BUTTONS
+----------------------------------------- */
+.btn-edit,
+.btn-delete,
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-edit { background: #ff9800; }
+.btn-delete { background: #e63946; }
+.btn { background: #4A90E2; width: 100%; margin-top: 15px; }
+
+/* -----------------------------------------
+   BACK BUTTON
+----------------------------------------- */
+.back-btn {
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 6px;
+    text-decoration: none;
+    background: #333;
+    color: white;
+}
+
+/* -----------------------------------------
+   FORM BOX (Update Page)
+----------------------------------------- */
+.form-box {
+    margin-top: 20px;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+
+/* -----------------------------------------
+   RESPONSIVE DESIGN
+----------------------------------------- */
+
+/* ---------- Tablets (600px) ---------- */
+@media (max-width: 768px) {
+    .container {
+        padding: 18px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}
+
+/* ---------- Mobile Phones (480px) ---------- */
+@media (max-width: 480px) {
+    .container {
+        width: 94%;
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    th, td {
+        font-size: 12px;
+        padding: 8px 6px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .search-box {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    input, select {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* ---------- Small Phones (360px) ---------- */
+@media (max-width: 360px) {
+    th, td {
+        font-size: 11px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .back-btn {
+        width: 130px;
+        padding: 8px;
+    }
+}/* SEARCH BOX */
+.search-box {
+    width: 50%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #c6d4f3;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto 20px auto;
+    transition: 0.3s ease;
+}
+
+.search-box:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}

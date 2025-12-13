@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Result Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student_report.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Student Result Report</div>
+
+<div class="sidebar">
+    <a href="/student/dashboard">Dashboard</a>
+    <a href="/student/report">My Report</a>
+    <a href="/student/prediction">Prediction</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+    <div class="card">
+        <h2>Student Details</h2>
+        <p><strong>Name:</strong> {{ student.S_Name }}</p>
+        <p><strong>Roll No:</strong> {{ student.Roll_No }}</p>
+        <p><strong>Department:</strong> {{ student.S_Department }}</p>
+        <p><strong>Semester:</strong> {{ student.S_Semester }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Semester Result</h2>
+
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Internal</th>
+                <th>External</th>
+                <th>Total</th>
+            </tr>
+
+            {% for r in results %}
+            <tr>
+                <td>{{ r.Sub_Name }}</td>
+                <td>{{ r.Internal }}</td>
+                <td>{{ r.External }}</td>
+                <td>{{ r.Total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="summary-card">
+        <h2>Overall Performance</h2>
+        <p><strong>Total Marks:</strong> {{ total_marks }}</p>
+        <p><strong>Percentage:</strong> {{ percentage }}%</p>
+        <p><strong>Grade:</strong> {{ grade }}</p>
+        <p class="status {{ status|lower }}">
+            <strong>Result:</strong> {{ status }}
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

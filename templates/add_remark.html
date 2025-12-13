@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Remark</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_remark.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Add Student Remark</div>
+
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/add_remark">Messages</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+    <div class="card">
+        <h2>Add Remark</h2>
+
+        <form method="POST">
+
+            <label>Select Student</label><br><br>
+            <select name="S_ID" required>
+                <option value="">-- Select Student --</option>
+                {% for s in students %}
+                <option value="{{ s.S_ID }}">{{ s.S_Name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label>Remark</label><br><br>
+            <textarea name="remark" required></textarea>
+
+            <button type="submit">Save Remark</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

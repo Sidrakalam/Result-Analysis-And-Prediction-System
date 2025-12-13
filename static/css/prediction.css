@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #eef1f5;
+}
+
+/* NAVBAR */
+.top-nav {
+    width: 100%;
+    background: #003366;
+    color: white;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #02294d;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 70px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid #07406e;
+}
+
+.sidebar a:hover {
+    background: #00509d;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-left: 230px;
+    margin-top: 90px;
+    padding: 20px;
+}
+
+h2 {
+    color: #003366;
+    font-size: 28px;
+}
+
+/* PREDICTION CARD */
+.prediction-card {
+    width: 55%;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px #ccc;
+    margin-top: 30px;
+}
+
+.prediction-card p {
+    font-size: 18px;
+    margin: 12px 0;
+}
+
+.predicted-score {
+    font-size: 28px;
+    color: #006600;
+    font-weight: bold;
+}
+
+.info-box {
+    background: #003366;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.label {
+    font-weight: bold;
+}

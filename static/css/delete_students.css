@@ -1,11 +1,16 @@
 /* =====================================
-   GLOBAL PAGE STYLE
+   GLOBAL PAGE STYLE – LIGHT BLUE THEME
 ===================================== */
 body {
-    font-family: 'Inter', sans-serif;
-    background: #eef1f5;
     margin: 0;
-    padding: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(120deg, #eef2ff, #e0f2fe, #fef9c3);
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 20px;
 }
 
 .container {
@@ -29,37 +34,38 @@ body {
 .title {
     font-size: 30px;
     font-weight: 700;
-    color: #222;
+    color: #1e3a8a; /* dark navy blue */
     margin-bottom: 5px;
 }
 
 .subtitle {
     font-size: 16px;
-    color: #666;
+    color: #4b5563; /* grayish-blue */
     margin-bottom: 20px;
 }
 
 /* =====================================
-   SEARCH BOX
+   SEARCH BOX – BLUE THEME
 ===================================== */
 .search-box {
     width: 50%;
     padding: 10px 14px;
-    border: 2px solid #c7c7c7;
+    border: 2px solid #a5c8ff;
     margin-bottom: 20px;
     border-radius: 8px;
     font-size: 15px;
+    background: #f0f7ff;
     transition: 0.3s ease;
 }
 
 .search-box:focus {
-    border-color: #4f46e5;
+    border-color: #3b82f6; /* bright blue */
     outline: none;
-    box-shadow: 0 0 4px rgba(79,70,229,0.5);
+    box-shadow: 0 0 5px rgba(59,130,246,0.4);
 }
 
 /* =====================================
-   TABLE DESIGN
+   TABLE DESIGN – LIGHT BLUE
 ===================================== */
 table {
     width: 100%;
@@ -71,7 +77,7 @@ table {
 }
 
 th {
-    background: #4f46e5;
+    background: #3b82f6; /* bright clean blue */
     color: white;
     padding: 12px;
     font-size: 15px;
@@ -81,11 +87,15 @@ th {
 td {
     padding: 12px;
     font-size: 15px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tr:nth-child(even) {
+    background: #f3f8ff; /* pastel blue */
 }
 
 tr:hover {
-    background: #f0f2ff;
+    background: #e6f0ff;
 }
 
 /* =====================================
@@ -102,7 +112,7 @@ tr:hover {
 }
 
 .btn-edit {
-    background: #2563eb;
+    background: #2563eb; /* blue */
 }
 
 .btn-edit:hover {
@@ -110,7 +120,7 @@ tr:hover {
 }
 
 .btn-delete {
-    background: #dc2626;
+    background: #dc2626; /* red for delete */
 }
 
 .btn-delete:hover {
@@ -118,13 +128,13 @@ tr:hover {
 }
 
 /* =====================================
-   BACK BUTTON
+   BACK BUTTON (BLUE)
 ===================================== */
 .back-btn {
     display: inline-block;
     margin-top: 25px;
     padding: 10px 18px;
-    background: #1f2937;
+    background: #1e40af;
     color: #fff;
     text-decoration: none;
     border-radius: 8px;
@@ -133,16 +143,16 @@ tr:hover {
 }
 
 .back-btn:hover {
-    background: black;
+    background: #1e3a8a;
 }
 
 /* =====================================
-   RESPONSIVE FOR MOBILE
+   RESPONSIVE DESIGN
 ===================================== */
 @media (max-width: 768px) {
 
     .container {
-        width: 95%;
+        width: 94%;
         padding: 20px;
     }
 
@@ -151,11 +161,11 @@ tr:hover {
     }
 
     .search-box {
-        width: 90%;
+        width: 100%;
     }
 
     table {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     th, td {

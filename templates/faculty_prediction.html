@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Performance Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_prediction.css') }}">
+</head>
+<body>
+
+<div class="top-nav">Prediction Module</div>
+
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/faculty_subject">Subjects</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="main-content">
+
+    <h2>Predict Student Marks</h2>
+
+    <form method="POST" class="card">
+
+        <label>Select Subject</label>
+        <select name="Sub_ID" required>
+            <option value="">-- Select Subject --</option>
+            {% for s in subjects %}
+            <option value="{{ s.Sub_ID }}">{{ s.Sub_Name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Search Student (Name / Roll No)</label>
+        <input type="text" name="keyword" placeholder="Enter Name or Roll No" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if student_data %}
+    <div class="result-card">
+
+        <h3>Student Details</h3>
+        <p><strong>Name:</strong> {{ student_data.S_Name }}</p>
+        <p><strong>Roll No:</strong> {{ student_data.Roll_No }}</p>
+        <p><strong>Internal:</strong> {{ student_data.Internal }}</p>
+        <p><strong>External:</strong> {{ student_data.External }}</p>
+        <p><strong>Actual Total:</strong> {{ student_data.Total }}</p>
+
+        <h3 class="prediction">
+            Predicted Marks: {{ predicted_marks }}
+        </h3>
+
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

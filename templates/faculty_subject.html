@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Subjects</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_subject.css') }}">
+</head>
+
+<body>
+
+<!-- TOP NAVBAR -->
+<div class="top-nav">
+    Faculty Subjects
+</div>
+
+<!-- SIDEBAR (SESSION BASED) -->
+<div class="sidebar">
+    <a href="/teacher/dashboard">Dashboard</a>
+    <a href="/faculty_subject">Subjects</a>
+    <a href="/messages">Messages</a>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h2>Subjects Assigned to You</h2>
+
+    {% if subjects|length == 0 %}
+        <p style="color:red;">No subjects assigned yet.</p>
+    {% else %}
+    <table>
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Department</th>
+            <th>Semester</th>
+            <th>Action</th>
+        </tr>
+
+        {% for s in subjects %}
+        <tr>
+            <td>{{ s.Sub_Code }}</td>
+            <td>{{ s.Sub_Name }}</td>
+            <td>{{ s.Sub_Department }}</td>
+            <td>{{ s.Sub_Semester }}</td>
+            <td>
+                <a class="btn"
+                   href="/enter_marks/{{ s.Sub_ID }}">
+                   Enter Marks
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

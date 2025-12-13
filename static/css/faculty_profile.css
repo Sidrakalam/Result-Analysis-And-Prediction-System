@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #eef1f5;
+}
+
+/* NAVBAR */
+.top-nav {
+    width: 100%;
+    background: #003366;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    font-size: 22px;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #02294d;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    border-bottom: 1px solid #07406e;
+}
+
+.sidebar a:hover {
+    background: #00509d;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-left: 230px;
+    margin-top: 90px;
+    padding: 20px;
+}
+
+h2 {
+    color: #003366;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    width: 60%;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px #ccc;
+}
+
+.profile-field {
+    margin: 10px 0;
+}
+
+.profile-field label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #003366;
+}
+
+.profile-field input {
+    width: 95%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #777;
+    margin-top: 5px;
+}
+
+/* UPDATE BUTTON */
+button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #28a745;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1f7e34;
+}

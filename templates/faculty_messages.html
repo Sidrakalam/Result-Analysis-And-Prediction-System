@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Messages</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/faculty_messages.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="top-nav">
+    Faculty Messages
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="/dashboard/{{ T_ID }}">Dashboard</a>
+    <a href="/faculty_subject/{{ T_ID }}">Subjects</a>
+    <a href="/messages/{{ T_ID }}">Messages</a>
+    <a href="/profile/{{ T_ID }}">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <h2>Send a Message</h2>
+
+    <div class="form-box">
+        <form method="POST">
+
+            <input type="text" name="receiver" placeholder="Receiver Student ID or Teacher ID" required>
+
+            <input type="text" name="title" placeholder="Message Title" required>
+
+            <textarea name="message" placeholder="Write your message..." required></textarea>
+
+            <button type="submit">Send Message</button>
+
+        </form>
+    </div>
+
+    <h2 style="margin-top: 30px;">Message History</h2>
+
+    <div class="history-box">
+
+        {% for msg in history %}
+        <div class="message-card">
+            <div class="message-title">{{ msg.title }}</div>
+            <div class="message-time">{{ msg.sent_at }}</div>
+            <p>{{ msg.message }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
