@@ -1,9 +1,18 @@
 from flask import Flask, render_template, request, redirect, session
 from db import get_connection
 import re
+import json
 
 app = Flask(__name__)
 app.secret_key = "mysupersecretkey123"
+
+def normalize_semester(sem):
+    sem = str(sem).strip()
+    if sem.lower().startswith("sem"):
+        return sem
+    return f"Sem {sem}"
+
+
 
 # =====================================================
 #           GLOBAL VALIDATION FUNCTIONS
@@ -74,36 +83,73 @@ def login():
 # =====================================================
 #                 ADMIN DASHBOARD
 # =====================================================
+from datetime import datetime
+
 @app.route("/admin/dashboard")
 def admin_dashboard():
+
+    # safety check
+    if "role" not in session or session["role"] != "admin":
+        return redirect("/")
 
     admin_name = session.get("name", "Admin")
 
     con = get_connection()
-    cur = con.cursor()
+    cur = con.cursor(dictionary=True)
 
-    cur.execute("SELECT COUNT(*) FROM student")
-    total_students = cur.fetchone()[0]
+    # ---------------- COUNTS ----------------
+    cur.execute("SELECT COUNT(*) AS total FROM student")
+    total_students = cur.fetchone()["total"]
 
-    cur.execute("SELECT COUNT(*) FROM teacher")
-    total_faculty = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) AS total FROM teacher")
+    total_faculty = cur.fetchone()["total"]
 
-    cur.execute("SELECT COUNT(*) FROM marks")
-    exams_processed = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) AS total FROM subject")
+    total_subjects = cur.fetchone()["total"]
+
+    cur.execute("SELECT COUNT(*) AS total FROM marks")
+    exams_processed = cur.fetchone()["total"]
+
+    # ---------------- SUBJECT WISE AVG ----------------
+    cur.execute("""
+        SELECT s.Sub_Name,
+               ROUND(AVG(m.Total),2) AS avg_marks
+        FROM marks m
+        JOIN subject s ON m.Sub_ID = s.Sub_ID
+        GROUP BY s.Sub_ID
+    """)
+    subject_avg = cur.fetchall()
+
+    # ---------------- SEMESTER TREND ----------------
+    cur.execute("""
+        SELECT s.Sub_Semester AS semester,
+               ROUND(AVG(m.Total),2) AS avg_total
+        FROM marks m
+        JOIN subject s ON m.Sub_ID = s.Sub_ID
+        GROUP BY s.Sub_Semester
+        ORDER BY s.Sub_Semester
+    """)
+    semester_trend = cur.fetchall()
+
+    # ---------------- OVERALL AVG ----------------
+    cur.execute("SELECT ROUND(AVG(Total),2) AS avg_total FROM marks")
+    row = cur.fetchone()
+    prediction_accuracy = row["avg_total"] if row["avg_total"] else 0
 
     con.close()
 
-    # dummy fallback when DB empty
-    if total_students == 0: total_students = 1254
-    if total_faculty == 0: total_faculty = 63
-    if exams_processed == 0: exams_processed = 18
-
-    return render_template("admin_dashboard.html",
-                           admin_name=admin_name,
-                           total_students=total_students,
-                           total_faculty=total_faculty,
-                           exams_processed=exams_processed,
-                           prediction_accuracy=78)
+    return render_template(
+        "admin_dashboard.html",
+        admin_name=admin_name,
+        total_students=total_students,
+        total_faculty=total_faculty,
+        total_subjects=total_subjects,
+        exams_processed=exams_processed,
+        prediction_accuracy=prediction_accuracy,
+        subject_avg=subject_avg,
+        semester_trend=semester_trend,
+        last_updated=datetime.now().strftime("%d %b %Y %I:%M %p")
+    )
 
 # STUDENT MENU
 @app.route("/admin/student-menu")
@@ -561,8 +607,6 @@ def delete_subjects_list():
     con.close()
     return render_template("delete_subject.html", subject=subject)
 
-#STUDENT DASHBOARD
-
 @app.route("/student/dashboard")
 def student_dashboard():
 
@@ -574,26 +618,198 @@ def student_dashboard():
     return render_template("student_dashboard.html", student_name=student_name)
 
 
-#STUDENT PROFILE
+
 @app.route("/student/profile")
 def student_profile():
 
     if "role" not in session or session["role"] != "student":
         return redirect("/")
 
-    student_name = session["name"]
+    sid = session.get("S_ID")
+    if not sid:
+        return redirect("/")
 
     con = get_connection()
     cur = con.cursor(dictionary=True)
 
-    # Fetch Student Details
-    cur.execute("SELECT * FROM student WHERE S_Name=%s", (student_name,))
+    cur.execute("SELECT * FROM student WHERE S_ID=%s", (sid,))
     student = cur.fetchone()
 
     con.close()
 
     return render_template("student_profile.html", student=student)
-#STUDENT RESULT
+
+
+#CLASS RESULT
+
+@app.route("/student/class-results")
+def class_results():
+
+    if "role" not in session or session["role"] != "student":
+        return redirect("/")
+
+    sid = session.get("S_ID")
+    if not sid:
+        return redirect("/")
+
+    sem_selected = request.args.get("semester")
+
+    con = get_connection()
+    cur = con.cursor(dictionary=True)
+
+    # Logged-in student info
+    cur.execute(
+        "SELECT S_Department, S_Semester FROM student WHERE S_ID=%s",
+        (sid,)
+    )
+    stu = cur.fetchone()
+    if not stu:
+        con.close()
+        return "Student not found", 404
+
+    dept = stu["S_Department"]
+    default_sem = normalize_semester(stu["S_Semester"])
+
+    # Available semesters
+    cur.execute("""
+        SELECT DISTINCT S_Semester 
+        FROM student 
+        WHERE S_Department=%s
+        ORDER BY S_Semester
+    """, (dept,))
+    semesters = [normalize_semester(r["S_Semester"]) for r in cur.fetchall()]
+
+    if not sem_selected:
+        sem_selected = default_sem
+    else:
+        sem_selected = normalize_semester(sem_selected)
+
+    # CLASS RESULT (SAFE LEFT JOIN)
+    cur.execute("""
+        SELECT s.Roll_No, s.S_Name,
+               IFNULL(r.Total, 0) AS Total
+        FROM student s
+        LEFT JOIN result r ON s.S_ID = r.S_ID
+        WHERE s.S_Department=%s
+          AND (s.S_Semester=%s OR s.S_Semester=REPLACE(%s,'Sem ',''))
+        ORDER BY Total DESC
+    """, (dept, sem_selected, sem_selected))
+
+    data = cur.fetchall()
+
+    class_results = []
+    names, totals = [], []
+
+    for i, row in enumerate(data, start=1):
+        row["Rank"] = i
+        class_results.append(row)
+        if i <= 10:
+            names.append(row["S_Name"])
+            totals.append(row["Total"])
+
+    cur.close()
+    con.close()
+
+    return render_template(
+        "class_results.html",
+        class_results=class_results,
+        dept=dept,
+        sem=sem_selected,
+        semesters=semesters,
+        total_students=len(class_results),
+        topper=class_results[0] if class_results else {},
+        names=names,
+        totals=totals
+    )
+
+#AnALYSIS 
+
+
+@app.route("/student/analysis")
+def student_analysis():
+
+    if "role" not in session or session["role"] != "student":
+        return redirect("/")
+
+    sid = session.get("S_ID")
+    if not sid:
+        return redirect("/")
+
+    con = get_connection()
+    cur = con.cursor(dictionary=True)
+
+    # student info
+    cur.execute("SELECT S_Name, S_Semester FROM student WHERE S_ID=%s", (sid,))
+    stu = cur.fetchone()
+    student_name = stu["S_Name"] if stu else "Student"
+    student_sem = stu["S_Semester"] if stu else ""
+
+    # 🔥 SUBJECT + MARKS (LEFT JOIN = ERP STYLE)
+    cur.execute("""
+        SELECT sub.Sub_Name, sub.Sub_Code,
+               IFNULL(m.Internal, 0) AS Internal,
+               IFNULL(m.External, 0) AS External,
+               IFNULL(m.Total, 0) AS Total
+        FROM subject sub
+        LEFT JOIN marks m 
+            ON m.Sub_ID = sub.Sub_ID AND m.S_ID = %s
+        WHERE sub.Sub_Semester = %s
+        ORDER BY sub.Sub_Name
+    """, (sid, student_sem))
+
+    rows = cur.fetchall()
+    con.close()
+
+    # ALWAYS define variables (NO ERROR EVER)
+    subjects  = []
+    subcodes  = []
+    totals    = []
+    internals = []
+    externals = []
+    summary   = {}
+    insights  = []
+
+    for r in rows:
+        subjects.append(r["Sub_Name"])
+        subcodes.append(r["Sub_Code"])
+        internals.append(r["Internal"])
+        externals.append(r["External"])
+        totals.append(r["Total"])
+
+    # summary only if marks exist
+    if any(totals):
+        summary = {
+            "total_subjects": len(totals),
+            "highest": max(totals),
+            "lowest": min(totals),
+            "average": round(sum(totals)/len(totals), 2),
+            "highest_sub": subjects[totals.index(max(totals))],
+            "lowest_sub": subjects[totals.index(min(totals))]
+        }
+
+        insights = [
+            f"Strongest Subject: {summary['highest_sub']}",
+            f"Weakest Subject: {summary['lowest_sub']}"
+        ]
+    else:
+        insights = [
+            "Marks not uploaded yet.",
+            "Please check again after faculty publishes results."
+        ]
+
+    return render_template(
+        "student_analysis.html",
+        student_name=student_name,
+        student_sem=student_sem,
+        subjects=subjects,
+        subcodes=subcodes,
+        totals=totals,
+        internals=internals,
+        externals=externals,
+        summary=summary,
+        insights=insights
+    )
+
 
 @app.route("/student/results")
 def student_results():
@@ -601,224 +817,38 @@ def student_results():
     if "role" not in session or session["role"] != "student":
         return redirect("/")
 
-    student_name = session["name"]
+    sid = session.get("S_ID")
+    if not sid:
+        return redirect("/")
 
     con = get_connection()
     cur = con.cursor(dictionary=True)
 
-    # Get student ID
-    cur.execute("SELECT S_ID, S_Semester FROM student WHERE S_Name=%s", 
-                (student_name,))
+    # student semester
+    cur.execute("SELECT S_Semester FROM student WHERE S_ID=%s", (sid,))
     stu = cur.fetchone()
+    student_sem = stu["S_Semester"] if stu else ""
 
-    sid = stu["S_ID"]
-    student_sem = stu["S_Semester"]
-
-    # Fetch subject-wise marks JOIN subject name
+    # subject-wise marks
     cur.execute("""
-        SELECT subject.Sub_Code, subject.Sub_Name,
-               marks.Internal, marks.External, marks.Total
-        FROM marks
-        JOIN subject ON marks.Sub_ID = subject.Sub_ID
-        WHERE marks.S_ID=%s
-        ORDER BY subject.Sub_Name ASC
+        SELECT sub.Sub_Code, sub.Sub_Name,
+               m.Internal, m.External, m.Total
+        FROM marks m
+        JOIN subject sub ON m.Sub_ID = sub.Sub_ID
+        WHERE m.S_ID=%s
+        ORDER BY sub.Sub_Name
     """, (sid,))
 
     results = cur.fetchall()
     con.close()
 
-    return render_template("student_results.html",
-                           results=results,
-                           student_sem=student_sem,
-                           student_name=student_name)
+    return render_template(
+        "student_results.html",
+        results=results,
+        student_sem=student_sem,
+        student_name=session.get("name")
+    )
 
-#TOTAL CLASS AND SEMESTER WISE RESULT 
-
-
-@app.route("/student/class-results")
-def student_class_results():
-
-    if "role" not in session or session["role"] != "student":
-        return redirect("/")
-
-    student_name = session["name"]
-
-    con = get_connection()
-    cur = con.cursor(dictionary=True)
-
-    # Fetch student data (to match department + semester)
-    cur.execute("SELECT S_ID, S_Department, S_Semester FROM student WHERE S_Name=%s",
-                (student_name,))
-    stu = cur.fetchone()
-
-    dept = stu["S_Department"]
-    sem = stu["S_Semester"]
-
-    # FETCH STUDENTS OF SAME CLASS (department + semester)
-    cur.execute("""
-        SELECT S_ID, S_Name, Roll_No
-        FROM student
-        WHERE S_Department=%s AND S_Semester=%s
-    """, (dept, sem))
-    classmates = cur.fetchall()
-
-    # CALCULATE TOTAL MARKS OF EACH STUDENT
-    class_results = []
-
-    for s in classmates:
-        cur.execute("""
-            SELECT SUM(Total) AS total_marks
-            FROM marks
-            WHERE S_ID=%s
-        """, (s["S_ID"],))
-        result = cur.fetchone()
-
-        total = result["total_marks"] if result["total_marks"] else 0
-
-        class_results.append({
-            "S_ID": s["S_ID"],
-            "S_Name": s["S_Name"],
-            "Roll_No": s["Roll_No"],
-            "Total": total
-        })
-
-    # SORT STUDENTS BY TOTAL MARKS DESCENDING
-    class_results = sorted(class_results, key=lambda x: x["Total"], reverse=True)
-
-    # ASSIGN RANKS
-    rank = 1
-    for student in class_results:
-        student["Rank"] = rank
-        rank += 1
-
-    con.close()
-
-    return render_template("class_results.html",
-                           class_results=class_results,
-                           dept=dept,
-                           sem=sem)
-
-#RESULT ANALYSIS 
-
-
-import json
-from flask import Flask, render_template, session, redirect
-# ... your other imports and get_connection function ...
-
-@app.route("/student/analysis")
-def student_analysis():
-
-    # auth
-    if "role" not in session or session["role"] != "student":
-        return redirect("/")
-
-    student_name = session.get("name")
-
-    con = get_connection()
-    cur = con.cursor(dictionary=True)
-
-    # get student id + semester for display
-    cur.execute("SELECT S_ID, S_Semester FROM student WHERE S_Name=%s", (student_name,))
-    stu = cur.fetchone()
-    if not stu:
-        con.close()
-        return render_template("student_analysis.html",
-                               error="Student record not found.",
-                               student_name=student_name)
-
-    sid = stu["S_ID"]
-    student_sem = stu.get("S_Semester", "")
-
-    # fetch subject-wise marks for this student
-    cur.execute("""
-        SELECT sub.Sub_Name, sub.Sub_Code, sub.Sub_Semester,
-               m.Internal, m.External, m.Total
-        FROM marks m
-        JOIN subject sub ON m.Sub_ID = sub.Sub_ID
-        WHERE m.S_ID = %s
-        ORDER BY sub.Sub_Name
-    """, (sid,))
-
-    rows = cur.fetchall()
-    con.close()
-
-    # if no marks found, pass empty
-    if not rows:
-        return render_template("student_analysis.html",
-                               student_name=student_name,
-                               student_sem=student_sem,
-                               subjects_json=json.dumps([]),
-                               totals_json=json.dumps([]),
-                               internals_json=json.dumps([]),
-                               externals_json=json.dumps([]),
-                               summary={},
-                               insights=[]
-                               )
-
-    # prepare chart arrays and compute summary
-    subjects = []
-    sub_codes = []
-    totals = []
-    internals = []
-    externals = []
-
-    for r in rows:
-        subjects.append(r["Sub_Name"])
-        sub_codes.append(r["Sub_Code"])
-        internals.append(r["Internal"] if r["Internal"] is not None else 0)
-        externals.append(r["External"] if r["External"] is not None else 0)
-        totals.append(r["Total"] if r["Total"] is not None else ( (r["Internal"] or 0) + (r["External"] or 0) ))
-
-    # summary metrics
-    highest = max(totals)
-    lowest = min(totals)
-    avg = round(sum(totals)/len(totals), 2)
-    total_subjects = len(totals)
-    highest_idx = totals.index(highest)
-    lowest_idx = totals.index(lowest)
-    strong_subject = subjects[highest_idx]
-    weak_subject = subjects[lowest_idx]
-
-    summary = {
-        "total_subjects": total_subjects,
-        "highest": highest,
-        "highest_sub": strong_subject,
-        "lowest": lowest,
-        "lowest_sub": weak_subject,
-        "average": avg
-    }
-
-    # simple insights (extendable)
-    insights = []
-    if avg >= 75:
-        insights.append("Excellent overall performance — keep up the good work.")
-    elif avg >= 60:
-        insights.append("Good performance. Aim to improve low scoring subjects for higher scores.")
-    elif avg >= 40:
-        insights.append("Average performance. Focus on weak subjects and practice more.")
-    else:
-        insights.append("Your performance is below average. Consider counseling and extra practice.")
-
-    insights.append(f"Strongest Subject: {strong_subject} ({highest})")
-    insights.append(f"Weakest Subject: {weak_subject} ({lowest})")
-
-    # internal vs external suggestions
-    # if average internal is low vs external, suggest improving internals
-    avg_internal = round(sum(internals)/len(internals), 2)
-    avg_external = round(sum(externals)/len(externals), 2)
-    if avg_internal < (0.6 * avg_external):  # heuristic
-        insights.append("Your internal marks are relatively low compared to external marks. Improve class participation and internal assessments.")
-
-    return render_template("student_analysis.html",
-                           student_name=student_name,
-                           student_sem=student_sem,
-                           subjects_json=json.dumps(subjects),
-                           subcodes_json=json.dumps(sub_codes),
-                           totals_json=json.dumps(totals),
-                           internals_json=json.dumps(internals),
-                           externals_json=json.dumps(externals),
-                           summary=summary,
-                           insights=insights)
 
 # =====================================================
 #                 TEACHER DASHBOARD
