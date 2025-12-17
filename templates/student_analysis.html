@@ -4,182 +4,100 @@
     <meta charset="UTF-8">
     <title>Performance Analysis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/student_analysis.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="theme-light">
+<body>
 
-<!-- NAVBAR -->
+<!-- TOP NAVBAR -->
 <nav class="topbar">
-    <div class="brand">📊 Performance Analysis</div>
+    <div class="brand">
+        📊 Performance Analysis
+        <span class="subtitle">Academic Insights</span>
+    </div>
 
-    <div class="top-controls">
-        <div class="student-name">
-            {{ student_name }} {% if student_sem %} | Sem {{ student_sem }} {% endif %}
-        </div>
-
-        <button id="themeToggle" class="theme-btn">Switch Theme</button>
-
-        <a href="/student/dashboard" class="btn-back">← Dashboard</a>
+    <div class="info">
+        <span class="student">{{ student_name }}</span>
+        <span class="semester">{{ student_sem }}</span>
+        <a href="/student/dashboard" class="back">← Dashboard</a>
     </div>
 </nav>
 
-<main class="main">
+<!-- MAIN CONTAINER -->
+<div class="container">
 
-    {% if error %}
-        <div class="error-box">{{ error }}</div>
-    {% endif %}
-
-    {% if subjects_json|default("[]")|safe == "[]" %}
-        <!-- NO DATA CASE -->
-        <section class="no-data">
-            <h2>No Result Data Available</h2>
-            <p>Your marks have not been uploaded yet. Please check again later.</p>
-        </section>
+    {% if not summary %}
+    <!-- NO DATA -->
+    <div class="no-data">
+        <h2>No Result Data Available</h2>
+        <p>Your marks have not been uploaded yet.<br>Please check again later.</p>
+    </div>
 
     {% else %}
-
-        <!-- SUMMARY CARDS -->
-        <section class="summary-cards">
-            <div class="card">
-                <h4>Total Subjects</h4>
-                <p class="big">{{ summary.total_subjects }}</p>
-            </div>
-
-            <div class="card">
-                <h4>Highest Score</h4>
-                <p class="big">{{ summary.highest }}
-                    <span class="muted">({{ summary.highest_sub }})</span>
-                </p>
-            </div>
-
-            <div class="card">
-                <h4>Lowest Score</h4>
-                <p class="big">{{ summary.lowest }}
-                    <span class="muted">({{ summary.lowest_sub }})</span>
-                </p>
-            </div>
-
-            <div class="card">
-                <h4>Average Marks</h4>
-                <p class="big">{{ summary.average }}</p>
-            </div>
-        </section>
-
-        <!-- CHARTS GRID -->
-        <section class="charts-grid">
-
-            <div class="chart-card">
-                <h3>Subject-wise Total Marks</h3>
-                <canvas id="totalsChart"></canvas>
-            </div>
-
-            <div class="chart-card">
-                <h3>Internal vs External</h3>
-                <canvas id="ieChart"></canvas>
-            </div>
-
-            <div class="insights-card">
-                <h3>Insights & Suggestions</h3>
-                <ul>
-                    {% for msg in insights %}
-                        <li>{{ msg }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="chart-card">
-                <h3>Marks Distribution</h3>
-                <canvas id="distChart"></canvas>
-            </div>
-
-        </section>
-
+    <!-- SUMMARY CARDS -->
+    <div class="summary">
+        <div class="card blue">
+            <h4>Total Subjects</h4>
+            <p>{{ summary.total_subjects }}</p>
+        </div>
+        <div class="card green">
+            <h4>Highest Marks</h4>
+            <p>{{ summary.highest }}</p>
+        </div>
+        <div class="card orange">
+            <h4>Average</h4>
+            <p>{{ summary.average }}</p>
+        </div>
+    </div>
     {% endif %}
 
-</main>
+    <!-- CHART -->
+    <div class="chart-box">
+        <h3>Subject-wise Performance</h3>
+        <canvas id="totalChart"></canvas>
+    </div>
 
-<!-- FIXED, CLEAN SCRIPT TAG -->
+    <!-- INSIGHTS -->
+    <div class="insights">
+        <h3>Performance Insights</h3>
+        <ul>
+            {% for i in insights %}
+            <li>{{ i }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+<!-- CHART SCRIPT -->
 <script>
+    const subjects  = {{ subjects | default([]) | tojson }};
+    const totals    = {{ totals   | default([]) | tojson }};
 
-    // THEME SWITCHER
-    document.getElementById("themeToggle").addEventListener("click", () => {
-        document.body.classList.toggle("theme-dark");
-        document.body.classList.toggle("theme-light");
-    });
-
-    // SAFE JSON VARIABLES
-    const subjects = JSON.parse('{{ subjects_json | default("[]") | tojson | safe }}');
-    const subCodes = JSON.parse('{{ subcodes_json | default("[]") | tojson | safe }}');
-    const totals = JSON.parse('{{ totals_json | default("[]") | tojson | safe }}');
-    const internals = JSON.parse('{{ internals_json | default("[]") | tojson | safe }}');
-    const externals = JSON.parse('{{ externals_json | default("[]") | tojson | safe }}');
-
-    if (subjects.length === 0) {
-        console.log("No marks available yet");
-    } else {
-
-        // SUBJECT TOTAL CHART
-        new Chart(document.getElementById("totalsChart"), {
+    if (subjects.length > 0) {
+        new Chart(document.getElementById("totalChart"), {
             type: "bar",
             data: {
                 labels: subjects,
                 datasets: [{
                     label: "Total Marks",
                     data: totals,
-                    backgroundColor: "rgba(26, 35, 126, 0.85)"
+                    backgroundColor: "#3f51b5",
+                    borderRadius: 6
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-
-        // INTERNAL VS EXTERNAL CHART
-        new Chart(document.getElementById("ieChart"), {
-            type: "bar",
-            data: {
-                labels: subjects,
-                datasets: [
-                    {
-                        label: "Internal",
-                        data: internals,
-                        backgroundColor: "rgba(3, 169, 244, 0.9)"
-                    },
-                    {
-                        label: "External",
-                        data: externals,
-                        backgroundColor: "rgba(255, 152, 0, 0.9)"
-                    }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-
-        // DISTRIBUTION CHART
-        const ranges = { "90-100":0, "75-89":0, "60-74":0, "40-59":0, "0-39":0 };
-
-        totals.forEach(t => {
-            if (t >= 90) ranges["90-100"]++;
-            else if (t >= 75) ranges["75-89"]++;
-            else if (t >= 60) ranges["60-74"]++;
-            else if (t >= 40) ranges["40-59"]++;
-            else ranges["0-39"]++;
-        });
-
-        new Chart(document.getElementById("distChart"), {
-            type: "doughnut",
-            data: {
-                labels: Object.keys(ranges),
-                datasets: [{
-                    data: Object.values(ranges),
-                    backgroundColor: ["#2e7d32","#1976d2","#0288d1","#fb8c00","#d32f2f"]
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
         });
     }
-
 </script>
 
 </body>

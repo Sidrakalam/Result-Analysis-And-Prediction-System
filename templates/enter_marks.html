@@ -2,22 +2,14 @@
 <html>
 <head>
     <title>Enter Marks</title>
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/enter_marks.css') }}">
 </head>
 
 <body>
 
-<!-- TOP NAVBAR -->
-<div class="top-nav">
-    Enter Marks
-</div>
+<div class="top-nav">Enter Marks</div>
 
-<!-- SIDEBAR (SESSION BASED) -->
 <div class="sidebar">
     <a href="/teacher/dashboard">Dashboard</a>
     <a href="/faculty_subject">Subjects</a>
@@ -26,7 +18,6 @@
     <a href="/logout">Logout</a>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main-content">
 
     <h2>
@@ -52,14 +43,10 @@
                 <td>{{ s.Roll_No }}</td>
                 <td>{{ s.S_Name }}</td>
                 <td>
-                    <input type="number"
-                           name="internal_{{ s.S_ID }}"
-                           min="0" max="30" required>
+                    <input type="number" name="internal_{{ s.S_ID }}" min="0" max="30" required>
                 </td>
                 <td>
-                    <input type="number"
-                           name="external_{{ s.S_ID }}"
-                           min="0" max="70" required>
+                    <input type="number" name="external_{{ s.S_ID }}" min="0" max="70" required>
                 </td>
             </tr>
             {% endfor %}

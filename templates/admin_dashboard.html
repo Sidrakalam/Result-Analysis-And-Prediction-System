@@ -92,7 +92,8 @@
               <i class="fa-solid fa-user-graduate dash-icon"></i>
             </div>
             <div class="stat">{{ total_students }}</div>
-            <div class="small muted">Updated 2 hours ago</div>
+           <div class="small muted">Updated {{ last_updated }}</div>
+
           </div>
 
           <div class="card stat-card">
@@ -136,7 +137,7 @@
           <div class="card chart-card">
             <div class="card-head">
               <div class="title">Trend (Semester Totals)</div>
-              <div class="small muted">Last 6 semesters</div>
+              <div class="small muted">Last 4 semesters</div>
             </div>
             <canvas id="lineChart" height="150"></canvas>
           </div>
@@ -161,6 +162,7 @@
             </div>
 
             <div class="widgets">
+              
               <button class="btn btn-primary">Add Student</button>
               <button class="btn btn-outline">Add Faculty</button>
               <button class="btn btn-outline">Run Prediction</button>
@@ -181,49 +183,57 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <script>
-  // BAR CHART
-  const barCtx = document.getElementById('barChart');
-  if (barCtx) {
-    new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Maths', 'Physics', 'Chemistry', 'CS', 'English'],
-        datasets: [{
-          label: 'Average',
-          data: [72, 68, 74, 80, 75],
-          backgroundColor: ['#4e73df'],
-          borderRadius: 6
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  }
+const subjectLabels = {{ subject_avg | map(attribute='Sub_Name') | list | tojson }};
+const subjectData   = {{ subject_avg | map(attribute='avg_marks') | list | tojson }};
 
-  // LINE CHART
-  const lineCtx = document.getElementById('lineChart');
-  if (lineCtx) {
-    new Chart(lineCtx, {
-      type: 'line',
-      data: {
-        labels: ['Sem1', 'Sem2', 'Sem3', 'Sem4', 'Sem5', 'Sem6'],
-        datasets: [{
-          label: 'Avg Total',
-          data: [480, 500, 510, 530, 520, 540],
-          borderColor: '#1cc88a',
-          backgroundColor: 'rgba(28,200,138,0.2)',
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } }
-      }
-    });
-  }
+const barCtx = document.getElementById('barChart');
+if (barCtx) {
+  new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: subjectLabels,
+      datasets: [{
+        label: 'Average Marks',
+        data: subjectData,
+        backgroundColor: '#4e73df',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+}
+
+
 </script>
+<script>
+const semLabels = {{ semester_trend | map(attribute='semester') | list | tojson }};
+const semData   = {{ semester_trend | map(attribute='avg_total') | list | tojson }};
+
+const lineCtx = document.getElementById('lineChart');
+if (lineCtx) {
+  new Chart(lineCtx, {
+    type: 'line',
+    data: {
+      labels: semLabels,
+      datasets: [{
+        label: 'Average Total',
+        data: semData,
+        borderColor: '#1cc88a',
+        backgroundColor: 'rgba(28,200,138,0.2)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+</script>
+
 
 
 </body>

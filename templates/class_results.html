@@ -1,49 +1,115 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Class Result</title>
+    <title>Class Results</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/class_results.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <h1>🏆 Class Results</h1>
-        <a href="/student/dashboard" class="back-btn">← Back</a>
-    </nav>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <h1>🏫 University ERP – Class Results</h1>
+    <a href="/student/dashboard" class="back-btn">← Dashboard</a>
+</nav>
 
-    <div class="container">
+<div class="container">
 
-        <h2 class="title">Department: {{ dept }} | Semester: {{ sem }}</h2>
+    <!-- HEADER -->
+    <div class="header">
+        <h2>{{ dept }} Department</h2>
 
-        <!-- CLASS RESULT TABLE -->
-        <table class="result-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Roll No</th>
-                    <th>Name</th>
-                    <th>Total Marks</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for row in class_results %}
-                <tr class="{% if loop.index == 1 %}topper{% endif %}">
-                    <td>{{ row.Rank }}</td>
-                    <td>{{ row.Roll_No }}</td>
-                    <td>{{ row.S_Name }}</td>
-                    <td>{{ row.Total }}</td>
-                </tr>
+        <!-- SEMESTER SELECT -->
+        <form method="get" class="filter">
+            <label>Select Semester:</label>
+            <select name="semester" onchange="this.form.submit()">
+                {% for s in semesters %}
+                    <option value="{{ s }}" {% if s == sem %}selected{% endif %}>
+                        {{ s }}
+                    </option>
                 {% endfor %}
-            </tbody>
-        </table>
-
+            </select>
+        </form>
     </div>
 
+    <!-- SUMMARY -->
+    <div class="summary">
+        <div class="card">
+            <h4>Total Students</h4>
+            <p>{{ total_students }}</p>
+        </div>
+        <div class="card">
+            <h4>Top Score</h4>
+            <p>{{ topper.Total if topper else "—" }}</p>
+        </div>
+        <div class="card">
+            <h4>Topper</h4>
+            <p>{{ topper.S_Name if topper else "—" }}</p>
+        </div>
+    </div>
+
+    <!-- GRAPH -->
+    <div class="chart-box">
+        <h3>Top 10 Performers – {{ sem }}</h3>
+        <canvas id="classChart"></canvas>
+    </div>
+
+    <!-- RESULT TABLE -->
+    <table class="result-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Total Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in class_results %}
+            <tr class="{% if loop.index == 1 %}topper{% endif %}">
+                <td>{{ row.Rank }}</td>
+                <td>{{ row.Roll_No }}</td>
+                <td>{{ row.S_Name }}</td>
+                <td>{{ row.Total }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align:center;">No results published</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    const labels = {{ names | default([]) | tojson }};
+    const totals = {{ totals | default([]) | tojson }};
+
+    if (labels.length > 0) {
+        new Chart(document.getElementById("classChart"), {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Total Marks",
+                    data: totals,
+                    backgroundColor: "#3f51b5"
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>
