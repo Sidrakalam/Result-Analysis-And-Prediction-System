@@ -837,18 +837,20 @@ def teacher_dashboard():
     cur = con.cursor(dictionary=True)
 
     # ---------- 1. TOTAL STUDENTS (teacher's dept & semester) ----------
+
     cur.execute("""
     SELECT COUNT(DISTINCT s.S_ID) AS total
     FROM student s
     JOIN subject sub
         ON s.S_Department = sub.Sub_Department
-       AND s.S_Semester   = sub.Sub_Semester
+       AND s.S_Semester = CONCAT('Sem ', sub.Sub_Semester)
     JOIN teacher_subject ts
         ON ts.Sub_ID = sub.Sub_ID
     WHERE ts.T_ID = %s
     """, (T_ID,))
-
     total_students = cur.fetchone()["total"] or 0
+    
+
 
     # ---------- 2. SUBJECTS ASSIGNED ----------
     cur.execute("""
@@ -1005,7 +1007,7 @@ def faculty_subject():
         subjects=subjects
     )
 
-@app.route("/enter_marks/<int:Sub_ID>", methods=["GET", "POST"])
+'''@app.route("/enter_marks/<int:Sub_ID>", methods=["GET", "POST"])
 def enter_marks(Sub_ID):
 
     if "role" not in session or session["role"] != "teacher":
@@ -1067,9 +1069,162 @@ def enter_marks(Sub_ID):
         "enter_marks.html",
         subject=subject,
         students=students
+    )'''
+
+
+
+
+
+'''@app.route("/enter_marks", methods=["GET", "POST"])
+def enter_marks():
+
+    if "role" not in session or session["role"] != "teacher":
+        return redirect("/")
+
+    T_ID = session.get("T_ID")
+    if not T_ID:
+        return redirect("/")
+
+    con = get_connection()
+    cur = con.cursor(dictionary=True)
+
+    # ---- 1. GET SUBJECTS TAUGHT BY THIS TEACHER ----
+    cur.execute("""
+        SELECT sub.Sub_ID, sub.Sub_Name, sub.Sub_Department, sub.Sub_Semester
+        FROM teacher_subject ts
+        JOIN subject sub ON ts.Sub_ID = sub.Sub_ID
+        WHERE ts.T_ID = %s
+    """, (T_ID,))
+    subjects = cur.fetchall()
+
+    students = []
+    subject = None
+    message = None
+
+    # ---- 2. WHEN SUBJECT IS SELECTED ----
+    if request.method == "POST":
+
+        Sub_ID = request.form.get("Sub_ID")
+
+        if Sub_ID:
+            # Fetch subject details
+            cur.execute("""
+                SELECT Sub_ID, Sub_Name, Sub_Department, Sub_Semester
+                FROM subject
+                WHERE Sub_ID = %s
+            """, (Sub_ID,))
+            subject = cur.fetchone()
+
+            if subject:
+                # ✅ Convert semester: 1 → 'Sem 1'
+                semester = f"Sem {subject['Sub_Semester']}"
+
+                # Fetch students of same dept & semester
+                cur.execute("""
+                    SELECT S_ID, Roll_No, S_Name
+                    FROM student
+                    WHERE S_Department = %s
+                      AND S_Semester = %s
+                    ORDER BY Roll_No
+                """, (subject["Sub_Department"], semester))
+                students = cur.fetchall()
+
+                # ---- 3. SAVE MARKS (ONLY IF MARKS SUBMITTED) ----
+                if students and f"internal_{students[0]['S_ID']}" in request.form:
+                    for s in students:
+                        internal = int(request.form.get(f"internal_{s['S_ID']}"))
+                        external = int(request.form.get(f"external_{s['S_ID']}"))
+                        total = internal + external
+
+                        cur.execute("""
+                            INSERT INTO marks (S_ID, Sub_ID, Internal, External, Total)
+                            VALUES (%s, %s, %s, %s, %s)
+                            ON DUPLICATE KEY UPDATE
+                                Internal = VALUES(Internal),
+                                External = VALUES(External),
+                                Total = VALUES(Total)
+                        """, (
+                            s["S_ID"], Sub_ID, internal, external, total
+                        ))
+
+                    con.commit()
+                    message = "Marks saved successfully ✔"
+
+    con.close()
+
+    return render_template(
+        "enter_marks.html",
+        subjects=subjects,
+        subject=subject,
+        students=students,
+        message=message
     )
+'''
+@app.route("/enter_marks/<int:Sub_ID>", methods=["GET", "POST"])
+def enter_marks(Sub_ID):
 
+    if "role" not in session or session["role"] != "teacher":
+        return redirect("/")
 
+    T_ID = session.get("T_ID")
+    if not T_ID:
+        return redirect("/")
+
+    con = get_connection()
+    cur = con.cursor(dictionary=True)
+
+    # Verify subject belongs to teacher
+    cur.execute("""
+        SELECT sub.Sub_ID, sub.Sub_Name, sub.Sub_Department, sub.Sub_Semester
+        FROM teacher_subject ts
+        JOIN subject sub ON ts.Sub_ID = sub.Sub_ID
+        WHERE ts.T_ID = %s AND sub.Sub_ID = %s
+    """, (T_ID, Sub_ID))
+
+    subject = cur.fetchone()
+    if not subject:
+        con.close()
+        return "Unauthorized", 403
+
+    # Convert semester: 1 → Sem 1
+    semester = f"Sem {subject['Sub_Semester']}"
+
+    # Fetch students
+    cur.execute("""
+        SELECT S_ID, Roll_No, S_Name
+        FROM student
+        WHERE S_Department = %s
+          AND S_Semester = %s
+        ORDER BY Roll_No
+    """, (subject["Sub_Department"], semester))
+
+    students = cur.fetchall()
+
+    # Save marks
+    if request.method == "POST":
+        for s in students:
+            internal = int(request.form.get(f"internal_{s['S_ID']}"))
+            external = int(request.form.get(f"external_{s['S_ID']}"))
+            total = internal + external
+
+            cur.execute("""
+                INSERT INTO marks (S_ID, Sub_ID, Internal, External, Total)
+                VALUES (%s, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    Internal=VALUES(Internal),
+                    External=VALUES(External),
+                    Total=VALUES(Total)
+            """, (s["S_ID"], Sub_ID, internal, external, total))
+
+        con.commit()
+
+    con.close()
+
+    return render_template(
+        "enter_marks.html",
+        subject=subject,
+        students=students
+    )
 
 
     
